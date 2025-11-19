@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "454971816334",
+    "project_id": "winperax-83187",
+    "storage_bucket": "winperax-83187.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:454971816334:android:6488e3051031d2132b4cdf",
+        "android_client_info": {
+          "package_name": "com.example.winperax"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "454971816334-rpg06ur93l9vru4cu4b5vq7f2ingjqs3.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.winperax",
+            "certificate_hash": "6afe7485f1eb41fe0b517b307f96cecd5d99a227"
+          }
+        },
+        {
+          "client_id": "454971816334-ci76mqo11m03s7ivvsb948l82p4cpggv.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB6y8xyGrb3o3g2UTzAvUbZ1s8ENVpxok4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "454971816334-ci76mqo11m03s7ivvsb948l82p4cpggv.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

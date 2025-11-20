@@ -2,28 +2,32 @@
   "version": "0.2.0",
   "configurations": [
     {
-      "name": "Flutter Web (Chrome)",
-      "request": "launch",
+      "name": "Flutter – Android (Physical Device)",
       "type": "dart",
+      "request": "launch",
+      "program": "lib/main.dart",
+      "deviceId": "2c5aea99"
+    },
+    {
+      "name": "Flutter – Web (Chrome)",
+      "type": "dart",
+      "request": "launch",
+      "program": "lib/main.dart",
       "deviceId": "chrome"
     },
     {
-      "name": "Flutter Windows",
-      "request": "launch",
+      "name": "Flutter – Web (Edge)",
       "type": "dart",
-      "deviceId": "windows"
-    },
-    {
-      "name": "Flutter Android",
       "request": "launch",
-      "type": "dart",
-      "deviceId": "emulator-5554"
-    },
-    {
-      "name": "Flutter Web (Edge)",
-      "request": "launch",
-      "type": "dart",
+      "program": "lib/main.dart",
       "deviceId": "edge"
+    },
+    {
+      "name": "Flutter – Windows",
+      "type": "dart",
+      "request": "launch",
+      "program": "lib/main.dart",
+      "deviceId": "windows"
     }
   ]
 }

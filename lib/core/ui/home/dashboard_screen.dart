@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:fl_chart/fl_chart.dart';
-import 'package:winperax/controllers/auth_controller.dart';
-import 'package:winperax/controllers/theme_controller.dart';
+import 'package:winperax/core/controllers/auth_controller.dart';
+import 'package:winperax/core/controllers/theme_controller.dart';
 
 class DashboardScreen extends StatelessWidget {
   const DashboardScreen({super.key});

@@ -7,8 +7,8 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-
-import 'package:winperax/main.dart';
+// import 'package:winperax/main.dart';
+import 'package:winperax/app.dart'; // 👈 MyApp sınıfını içeren dosya
 
 void main() {
   testWidgets('Counter increments smoke test', (WidgetTester tester) async {

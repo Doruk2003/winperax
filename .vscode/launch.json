@@ -2,32 +2,11 @@
   "version": "0.2.0",
   "configurations": [
     {
-      "name": "Flutter – Android (Physical Device)",
+      "name": "Flutter",
       "type": "dart",
       "request": "launch",
-      "program": "lib/main.dart",
-      "deviceId": "2c5aea99"
-    },
-    {
-      "name": "Flutter – Web (Chrome)",
-      "type": "dart",
-      "request": "launch",
-      "program": "lib/main.dart",
-      "deviceId": "chrome"
-    },
-    {
-      "name": "Flutter – Web (Edge)",
-      "type": "dart",
-      "request": "launch",
-      "program": "lib/main.dart",
-      "deviceId": "edge"
-    },
-    {
-      "name": "Flutter – Windows",
-      "type": "dart",
-      "request": "launch",
-      "program": "lib/main.dart",
-      "deviceId": "windows"
+      "program": "lib/main.dart"
+      // deviceId kaldırıldı
     }
   ]
 }

@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:fl_chart/fl_chart.dart';
+// import 'package:fl_chart/fl_chart.dart';
 import 'package:winperax/core/controllers/auth_controller.dart';
 import 'package:winperax/core/controllers/theme_controller.dart';
+import 'package:winperax/modules/teklif/pages/teklif_listesi_page.dart';
 
 class DashboardScreen extends StatelessWidget {
   const DashboardScreen({super.key});
@@ -92,7 +93,7 @@ class DashboardScreen extends StatelessWidget {
                 ),
                 const SizedBox(height: 16),
                 // Grafik burada
-                _PieChartWidget(),
+                // _PieChartWidget(),
               ],
             ),
           ),
@@ -103,40 +104,40 @@ class DashboardScreen extends StatelessWidget {
 }
 
 // Pie Chart Widget
-class _PieChartWidget extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Card(
-      child: Padding(
-        padding: EdgeInsets.all(16),
-        child: Column(
-          children: [
-            Text('Proje Dağılımı'),
-            SizedBox(
-              height: 125,
-              child: PieChart(
-                PieChartData(
-                  sections: [
-                    PieChartSectionData(
-                      value: 70,
-                      color: Colors.blue,
-                      title: 'Yurtiçi Proje',
-                    ),
-                    PieChartSectionData(
-                      value: 30,
-                      color: Colors.green,
-                      title: 'Yurtdışı Proje',
-                    ),
-                  ],
-                ),
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-}
+// class _PieChartWidget extends StatelessWidget {
+//   @override
+//   Widget build(BuildContext context) {
+//     return Card(
+//       child: Padding(
+//         padding: EdgeInsets.all(16),
+//         child: Column(
+//           children: [
+//             Text('Proje Dağılımı'),
+//             SizedBox(
+//               height: 125,
+//               child: PieChart(
+//                 PieChartData(
+//                   sections: [
+//                     PieChartSectionData(
+//                       value: 70,
+//                       color: Colors.blue,
+//                       title: 'Yurtiçi Proje',
+//                     ),
+//                     PieChartSectionData(
+//                       value: 30,
+//                       color: Colors.green,
+//                       title: 'Yurtdışı Proje',
+//                     ),
+//                   ],
+//                 ),
+//               ),
+//             ),
+//           ],
+//         ),
+//       ),
+//     );
+//   }
+// }
 
 // DashboardCard widget'ı güncellendi
 class DashboardCard extends StatelessWidget {
@@ -267,38 +268,33 @@ class AppDrawer extends StatelessWidget {
                 padding: EdgeInsets.zero,
                 children: [
                   ListTile(
-                    leading: Icon(
-                      Icons.home,
-                      color: const Color(0xFF66BB6A),
-                    ), // 👈 İkon rengi yeşil
+                    leading: Icon(Icons.home, color: const Color(0xFF66BB6A)),
                     title: Text(
                       'Panel',
                       style: TextStyle(fontFamily: 'Montserrat'),
                     ),
                     onTap: () => Get.back(),
                   ),
+
                   ListTile(
-                    leading: Icon(
-                      Icons.person,
-                      color: const Color(0xFF66BB6A),
-                    ), // 👈 İkon rengi yeşil
+                    leading: Icon(Icons.person, color: const Color(0xFF66BB6A)),
                     title: Text(
                       'Cari',
                       style: TextStyle(fontFamily: 'Montserrat'),
                     ),
                     onTap: () => Get.back(),
                   ),
+
                   ListTile(
-                    leading: Icon(
-                      Icons.apple,
-                      color: const Color(0xFF66BB6A),
-                    ), // 👈 İkon rengi yeşil
+                    leading: Icon(Icons.apple, color: const Color(0xFF66BB6A)),
                     title: Text(
                       'Stok',
                       style: TextStyle(fontFamily: 'Montserrat'),
                     ),
                     onTap: () => Get.back(),
                   ),
+
+                  // 🔥 TEKLİF – Doğru yönlendirmeyle güncel HALİ
                   ListTile(
                     leading: Icon(Icons.recycling, color: Colors.white),
                     title: Text(
@@ -309,47 +305,58 @@ class AppDrawer extends StatelessWidget {
                       ),
                     ),
                     tileColor: const Color(0xFF66BB6A),
-                    onTap: () => Get.back(),
+
+                    /// 👇 **Menü kapanacak → Teklif Listesi açılacak**
+                    onTap: () {
+                      Get.back(); // Drawer'ı kapat
+                      Future.delayed(const Duration(milliseconds: 200), () {
+                        Get.to(
+                          () => const TeklifListesiPage(),
+                        ); // Teklif Listesi aç
+                      });
+                    },
                   ),
+
                   ListTile(
                     leading: Icon(
                       Icons.settings,
                       color: const Color(0xFF66BB6A),
-                    ), // 👈 İkon rengi yeşil
+                    ),
                     title: Text(
                       'Ayarlar',
                       style: TextStyle(fontFamily: 'Montserrat'),
                     ),
                     onTap: () => Get.back(),
                   ),
+
                   ListTile(
                     leading: Icon(
                       Icons.event_note,
                       color: const Color(0xFF66BB6A),
-                    ), // 👈 İkon rengi yeşil
+                    ),
                     title: Text(
                       'Reçeteler',
                       style: TextStyle(fontFamily: 'Montserrat'),
                     ),
                     onTap: () => Get.back(),
                   ),
+
                   ListTile(
                     leading: Icon(
                       Icons.manage_accounts,
                       color: const Color(0xFF66BB6A),
-                    ), // 👈 İkon rengi yeşil
+                    ),
                     title: Text(
                       'Parametreler',
                       style: TextStyle(fontFamily: 'Montserrat'),
                     ),
                     onTap: () => Get.back(),
                   ),
+
                   const Spacer(),
+
                   ListTile(
-                    leading: Icon(
-                      Icons.logout,
-                      color: const Color(0xFF66BB6A),
-                    ), // 👈 İkon rengi yeşil
+                    leading: Icon(Icons.logout, color: const Color(0xFF66BB6A)),
                     title: Text(
                       'Çıkış',
                       style: TextStyle(fontFamily: 'Montserrat'),
@@ -361,6 +368,7 @@ class AppDrawer extends StatelessWidget {
                 ],
               ),
             ),
+
             // Altta Versiyon 1.1 yazan siyah bant
             Container(
               width: double.infinity,

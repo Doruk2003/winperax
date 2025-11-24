@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:winperax/modules/teklif/pages/yeni_teklif_page.dart';
+import 'package:winperax/modules/teklif/presentation/pages/yeni_teklif_page.dart';
 
 class TeklifListesiPage extends StatefulWidget {
   const TeklifListesiPage({super.key});

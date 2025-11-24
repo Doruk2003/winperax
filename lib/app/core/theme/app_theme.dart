@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../constants/app_colors.dart'; // ✅ Relative path ile import
+import 'package:winperax/app/core/constants/app_colors.dart'; // ✅ Relative path ile import
 
 ThemeData lightTheme() {
   return ThemeData(

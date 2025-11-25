@@ -1,19 +1,12 @@
-import 'package:winperax/modules/cari/domain/repositories/cari_repository.dart';
+import '../repositories/cari_repository.dart';
+import '../entities/cari_entity.dart';
 
-class CreateCariUseCase {
+class CreateCari {
   final CariRepository repository;
 
-  CreateCariUseCase(this.repository);
+  CreateCari(this.repository);
 
-  Future<String> call({
-    required String unvan,
-    required String telefon,
-    required String mail,
-  }) {
-    return repository.createCari(
-      unvan: unvan,
-      telefon: telefon,
-      mail: mail,
-    );
+  Future<String> call(CariEntity cari) {
+    return repository.createCari(cari);
   }
 }

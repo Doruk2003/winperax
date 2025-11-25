@@ -2,7 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:winperax/modules/teklif/domain/entities/teklif_entity.dart';
 
 class TeklifModel extends TeklifEntity {
-  const TeklifModel({
+  TeklifModel({
     required super.id,
     required super.teklifTipi,
     required super.cariId,
@@ -11,26 +11,30 @@ class TeklifModel extends TeklifEntity {
     super.projeAdi,
     required super.createdAt,
     required super.durum,
+    required super.personelId,
+    required super.personelAdSoyad,
+    required super.personelEmail,
   });
 
-  /// Firestore → Model
-  factory TeklifModel.fromMap(Map<String, dynamic> map) {
+  factory TeklifModel.fromMap(Map<String, dynamic> data, String documentId) {
     return TeklifModel(
-      id: map['id'],
-      teklifTipi: map['teklifTipi'],
-      cariId: map['cariId'],
-      cariUnvan: map['cariUnvan'],
-      musteriUnvan: map['musteriUnvan'],
-      projeAdi: map['projeAdi'],
-      createdAt: (map['createdAt'] as Timestamp).toDate(),
-      durum: map['durum'],
+      id: documentId,
+      teklifTipi: data['teklifTipi'] ?? '',
+      cariId: data['cariId'] ?? '',
+      cariUnvan: data['cariUnvan'] ?? '',
+      musteriUnvan: data['musteriUnvan'],
+      projeAdi: data['projeAdi'],
+      createdAt: (data['createdAt'] as Timestamp).toDate(),
+      durum: data['durum'] ?? '',
+
+      personelId: data['personelId'] ?? '',
+      personelAdSoyad: data['personelAdSoyad'] ?? '',
+      personelEmail: data['personelEmail'] ?? '',
     );
   }
 
-  /// Model → Map (Firestore)
   Map<String, dynamic> toMap() {
     return {
-      'id': id,
       'teklifTipi': teklifTipi,
       'cariId': cariId,
       'cariUnvan': cariUnvan,
@@ -38,6 +42,10 @@ class TeklifModel extends TeklifEntity {
       'projeAdi': projeAdi,
       'createdAt': createdAt,
       'durum': durum,
+
+      'personelId': personelId,
+      'personelAdSoyad': personelAdSoyad,
+      'personelEmail': personelEmail,
     };
   }
 }

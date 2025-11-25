@@ -1,18 +1,20 @@
 import 'package:winperax/modules/teklif/domain/entities/teklif_entity.dart';
 
 abstract class TeklifRepository {
-  /// Yeni teklif oluşturur, Firestore ID döner
-  Future<String> createTeklif(TeklifEntity teklif);
+  Future<String> createTeklif(
+    TeklifEntity teklif, {
+    required String teklifTipi,
+    required String cariId,
+    required String cariUnvan,
+    String? musteriUnvan,
+    String? projeAdi,
+    required String durum,
 
-  /// Tek teklifi ID'ye göre getirir
-  Future<TeklifEntity?> getTeklifById(String id);
+    // ➕ Yeni eklenen parametreler
+    required String personelId,
+    required String personelAdSoyad,
+    required String personelEmail,
+  });
 
-  /// Teklifi günceller
-  Future<void> updateTeklif(TeklifEntity teklif);
-
-  /// Teklifi siler
-  Future<void> deleteTeklif(String id);
-
-  /// Listeler (örneğin bir cariye bağlı teklifler)
-  Future<List<TeklifEntity>> getTeklifListByCari(String cariId);
+  Future<List<TeklifEntity>> getTeklifler();
 }

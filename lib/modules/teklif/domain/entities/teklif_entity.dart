@@ -3,10 +3,15 @@ class TeklifEntity {
   final String teklifTipi;
   final String cariId;
   final String cariUnvan;
-  final String? musteriUnvan; // opsiyonel
-  final String? projeAdi;     // opsiyonel
+  final String? musteriUnvan;
+  final String? projeAdi;
   final DateTime createdAt;
   final String durum;
+
+  // ➕ Yeni Eklenenler
+  final String personelId;
+  final String personelAdSoyad;
+  final String personelEmail;
 
   const TeklifEntity({
     required this.id,
@@ -17,5 +22,10 @@ class TeklifEntity {
     this.projeAdi,
     required this.createdAt,
     required this.durum,
+
+    // ➕ Yeni zorunlu parametreler
+    required this.personelId,
+    required this.personelAdSoyad,
+    required this.personelEmail,
   });
 }

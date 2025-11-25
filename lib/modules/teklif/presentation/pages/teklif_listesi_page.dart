@@ -98,7 +98,7 @@ class _TeklifListesiPageState extends State<TeklifListesiPage> {
   Widget build(BuildContext context) {
     final width = MediaQuery.of(context).size.width;
 
-    Widget _buildHeader() {
+    Widget buildHeader() {
       return Container(
         padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 30),
         decoration: const BoxDecoration(
@@ -142,7 +142,7 @@ class _TeklifListesiPageState extends State<TeklifListesiPage> {
       return Scaffold(
         body: Column(
           children: [
-            _buildHeader(),
+            buildHeader(),
             Expanded(child: _buildMobile()),
           ],
         ),
@@ -151,7 +151,7 @@ class _TeklifListesiPageState extends State<TeklifListesiPage> {
       return Scaffold(
         body: Column(
           children: [
-            _buildHeader(),
+            buildHeader(),
             Expanded(child: _buildTablet()),
           ],
         ),
@@ -160,7 +160,7 @@ class _TeklifListesiPageState extends State<TeklifListesiPage> {
       return Scaffold(
         body: Column(
           children: [
-            _buildHeader(),
+            buildHeader(),
             Expanded(child: _buildWeb()),
           ],
         ),

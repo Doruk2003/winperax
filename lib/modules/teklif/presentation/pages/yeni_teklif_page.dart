@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:winperax/modules/teklif/controllers/teklif_controller.dart';
+import 'package:winperax/modules/teklif/presentation/pages/teklif_controller.dart';
 
 class YeniTeklifPage extends StatefulWidget {
   const YeniTeklifPage({super.key});

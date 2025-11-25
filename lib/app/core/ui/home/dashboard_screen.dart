@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 // import 'package:fl_chart/fl_chart.dart';
-import 'package:winperax/core/controllers/auth_controller.dart';
-import 'package:winperax/core/controllers/theme_controller.dart';
-import 'package:winperax/modules/teklif/pages/teklif_listesi_page.dart';
+import 'package:winperax/app/core/controllers/auth_controller.dart';
+import 'package:winperax/app/core/controllers/theme_controller.dart';
+import 'package:winperax/modules/teklif/presentation/views/offer_list_page.dart';
 
 class DashboardScreen extends StatelessWidget {
   const DashboardScreen({super.key});

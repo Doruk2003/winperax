@@ -3,7 +3,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:winperax/modules/teklif/controllers/teklif_controller.dart';
+import 'package:winperax/modules/teklif/presentation/controllers/teklif_controller.dart';
 
 class CariSecimPage extends StatefulWidget {
   const CariSecimPage({super.key});

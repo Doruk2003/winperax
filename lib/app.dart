@@ -1,14 +1,13 @@
-import 'package:winperax/core/ui/auth/forgot_password_screen.dart';
-import 'package:winperax/core/ui/auth/login_screen.dart';
-import 'package:winperax/core/ui/auth/otp_screen.dart';
-import 'package:winperax/core/ui/auth/signup_screen.dart';
-import 'package:winperax/core/ui/home/dashboard_screen.dart';
-// import 'package:winperax/ui/wrapper/wrapper_screen.dart';
+import 'package:winperax/modules/auth/presentation/pages/forgot_password_screen.dart';
+import 'package:winperax/modules/auth/presentation/pages/login_screen.dart';
+import 'package:winperax/modules/auth/presentation/pages/otp_screen.dart';
+import 'package:winperax/modules/auth/presentation/pages/signup_screen.dart';
+import 'package:winperax/app/core/ui/home/dashboard_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:winperax/core/theme/app_theme.dart';
-import 'package:winperax/core/controllers/auth_controller.dart';
-import 'package:winperax/core/controllers/theme_controller.dart';
+import 'package:winperax/app/core/theme/app_theme.dart';
+import 'package:winperax/app/core/controllers/auth_controller.dart';
+import 'package:winperax/app/core/controllers/theme_controller.dart';
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});

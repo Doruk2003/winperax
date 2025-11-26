@@ -1,12 +1,11 @@
-import 'package:winperax/modules/auth/presentation/controllers/auth_controller.dart';
-import 'package:winperax/modules/auth/presentation/views/forgot_password_screen.dart';
-import 'package:winperax/modules/auth/presentation/views/login_screen.dart';
-import 'package:winperax/modules/auth/presentation/views/otp_screen.dart';
-import 'package:winperax/modules/auth/presentation/views/signup_screen.dart';
-// import 'package:winperax/app/core/ui/home/dashboard_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:winperax/app/core/theme/app_theme.dart';
+import 'package:winperax/modules/auth/presentation/controllers/auth_controller.dart';
+import 'package:winperax/modules/auth/presentation/views/forgot_password_view.dart';
+import 'package:winperax/modules/auth/presentation/views/login_view.dart';
+import 'package:winperax/modules/auth/presentation/views/otp_screen.dart';
+import 'package:winperax/modules/auth/presentation/views/signup_view.dart';
+import 'package:winperax/app/shared/ui/theme/app_theme.dart';
 import 'package:winperax/app/core/controllers/theme_controller.dart';
 
 class MyApp extends StatelessWidget {
@@ -14,23 +13,28 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // Global Controller Inject
     Get.put(AuthController());
     Get.put(ThemeController());
 
     return GetMaterialApp(
       title: 'WINPERAX UI',
       debugShowCheckedModeBanner: false,
-      theme: lightTheme(),
-      darkTheme: darkTheme(),
+
+      // 🎨 Modern AppTheme Kullanımı
+      theme: AppTheme.lightTheme,
+      darkTheme: AppTheme.darkTheme,
       themeMode: ThemeMode.system,
+
+      // 🔗 Başlangıç sayfası
       initialRoute: '/login',
+
+      // 🔗 Sayfa rotaları
       getPages: [
-        // GetPage(name: '/', page: () => const WrapperScreen()),
-        // GetPage(name: '/home', page: () => DashboardScreen()),
-        GetPage(name: '/login', page: () => LoginScreen()),
-        GetPage(name: '/signup', page: () => const SignUpScreen()),
-        GetPage(name: '/forgot', page: () => const ForgotPasswordScreen()),
-        GetPage(name: '/otp', page: () => const OtpScreen()),
+        GetPage(name: '/login', page: () => LoginView()),
+        GetPage(name: '/signup', page: () => SignupView()),
+        GetPage(name: '/forgot', page: () => ForgotPasswordView()),
+        GetPage(name: '/otp', page: () => OtpScreen()),
       ],
     );
   }

@@ -2,14 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:winperax/modules/auth/presentation/controllers/auth_controller.dart';
 
-class SignupScreen extends StatelessWidget {
+class SignupView extends StatelessWidget {
   final AuthController authController = Get.find<AuthController>();
 
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
   final TextEditingController passwordAgainController = TextEditingController();
 
-  SignupScreen({super.key});
+  SignupView({super.key});
 
   @override
   Widget build(BuildContext context) {

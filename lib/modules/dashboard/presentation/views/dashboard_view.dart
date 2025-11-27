@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:winperax/modules/dashboard/presentation/controllers/dashboard_controller.dart';
-import 'package:winperax/modules/dashboard/presentation/widgets/side_menu.dart';
+import 'package:winperax/modules/dashboard/presentation/widgets/dashboard_appbar.dart';
+import 'package:winperax/modules/dashboard/presentation/widgets/side_menu_responsive.dart';
 import 'package:winperax/modules/dashboard/presentation/widgets/dashboard_content.dart';
 
 class DashboardView extends StatelessWidget {
@@ -9,28 +10,36 @@ class DashboardView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // ✅ Obx scope'u içinde controller'ı al
+    // ensure controller is available
+    Get.put(DashboardController());
     final controller = Get.find<DashboardController>();
 
     return Scaffold(
-      body: Row(
+      appBar: DashboardAppBar(),
+      body: Stack(
         children: [
-          // Desktop side menu
-          LayoutBuilder(
-            builder: (context, constraints) {
-              if (constraints.maxWidth > 800) {
-                return SideMenu();
-              }
-              return const SizedBox.shrink();
-            },
+          Row(
+            children: [
+              SideMenuResponsive(),
+              Expanded(child: DashboardContent()),
+            ],
           ),
 
-          // main content
-          Expanded(
-            child: Obx(() {
-              return DashboardContent(menuIndex: controller.selectedMenuIndex.value);
-            }),
-          ),
+          // mobile overlay when menu open
+          Obx(() {
+            final isMobile = MediaQuery.of(context).size.width < 800;
+            if (!isMobile || !controller.isMenuOpen.value) {
+              return const SizedBox.shrink();
+            }
+            return GestureDetector(
+              onTap: () => controller.isMenuOpen.value = false,
+              child: AnimatedOpacity(
+                duration: const Duration(milliseconds: 200),
+                opacity: controller.isMenuOpen.value ? 1 : 0,
+                child: Container(color: Colors.black.withValues(alpha: 0.35)),
+              ),
+            );
+          }),
         ],
       ),
     );

@@ -24,6 +24,7 @@ dependencies:
 dev_dependencies:
   flutter_test:
     sdk: flutter
+  fl_chart: ^0.66.0
   flutter_lints: ^5.0.0
 
 flutter:
@@ -31,6 +32,8 @@ flutter:
     - assets/images/facebook.png
     - assets/images/google.png
     - assets/images/winperax.png
+    - assets/images/user.png
+    - assets/illustrations/login_illustration.png
 
   uses-material-design: true
 

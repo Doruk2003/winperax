@@ -3,7 +3,9 @@ import 'package:get/get.dart';
 import 'package:winperax/modules/dashboard/presentation/controllers/dashboard_controller.dart';
 
 class SideMenu extends StatelessWidget {
-  SideMenu({super.key});
+  SideMenu({super.key, required bool isCompact});
+
+  final DashboardController controller = Get.find();
 
   final List<Map<String, dynamic>> menuItems = [
     {"icon": Icons.dashboard_outlined, "label": "Panel"},
@@ -24,64 +26,70 @@ class SideMenu extends StatelessWidget {
       child: Column(
         children: [
           const SizedBox(height: 40),
-          
-          // logo
+
           Image.asset(
             "assets/images/winperax.png",
             height: 60,
             fit: BoxFit.contain,
           ),
+
           const SizedBox(height: 20),
 
-          // menu list
           Expanded(
-            child: Obx(
-              () {
-                // ✅ Obx scope'u içinde controller'ı yeniden bulun
-                final controller = Get.find<DashboardController>();
-                
-                return ListView.builder(
-                  itemCount: menuItems.length,
-                  itemBuilder: (context, index) {
-                    final isSelected = controller.selectedMenuIndex.value == index;
+            child: ListView.builder(
+              itemCount: menuItems.length,
+              itemBuilder: (context, index) {
+                return Obx(() {
+                  final isSelected =
+                      controller.selectedMenuIndex.value == index;
 
-                    return GestureDetector(
-                      onTap: () => controller.changeMenu(index),
-                      child: AnimatedContainer(
-                        duration: const Duration(milliseconds: 200),
-                        margin: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
-                        padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 10),
-                        decoration: BoxDecoration(
-                          color: isSelected
-                              ? Theme.of(context).colorScheme.primary.withOpacity(.15)
-                              : Colors.transparent,
-                          borderRadius: BorderRadius.circular(10),
-                        ),
-                        child: Row(
-                          children: [
-                            Icon(
-                              menuItems[index]["icon"],
+                  return GestureDetector(
+                    onTap: () => controller.changeMenu(index),
+                    child: AnimatedContainer(
+                      duration: const Duration(milliseconds: 200),
+                      margin: const EdgeInsets.symmetric(
+                        horizontal: 12,
+                        vertical: 6,
+                      ),
+                      padding: const EdgeInsets.symmetric(
+                        vertical: 12,
+                        horizontal: 10,
+                      ),
+                      decoration: BoxDecoration(
+                        color: isSelected
+                            ? Theme.of(
+                                context,
+                              ).colorScheme.primary.withValues(alpha: 0.15)
+                            : Colors.transparent,
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                      child: Row(
+                        children: [
+                          Icon(
+                            menuItems[index]["icon"],
+                            color: isSelected
+                                ? Theme.of(context).colorScheme.primary
+                                : Colors.grey.shade600,
+                          ),
+                          const SizedBox(width: 12),
+                          Text(
+                            menuItems[index]["label"],
+                            style: TextStyle(
+                              fontSize: 15,
+                              fontFamily: "Montserrat",
+                              fontWeight: isSelected
+                                  ? FontWeight.bold
+                                  : FontWeight.w500,
                               color: isSelected
                                   ? Theme.of(context).colorScheme.primary
-                                  : Colors.grey.shade600,
+                                  : Colors.grey.shade700,
                             ),
-                            const SizedBox(width: 12),
-                            Text(
-                              menuItems[index]["label"],
-                              style: TextStyle(
-                                fontSize: 15,
-                                fontWeight: isSelected ? FontWeight.bold : FontWeight.w500,
-                                color: isSelected
-                                    ? Theme.of(context).colorScheme.primary
-                                    : Colors.grey.shade700,
-                              ),
-                            ),
-                          ],
-                        ),
+                          ),
+                        ],
                       ),
-                    );
-                  },
-                );
+                    ),
+                  );
+                });
               },
             ),
           ),
@@ -92,7 +100,7 @@ class SideMenu extends StatelessWidget {
               "Oğuz Türkyılmaz - V1.0",
               style: TextStyle(fontSize: 12, color: Colors.grey),
             ),
-          )
+          ),
         ],
       ),
     );

@@ -6,6 +6,7 @@ class AppTheme {
   static const Color secondaryColor = Color(0xFF6366F1);
   static const Color backgroundLight = Color(0xFFF9FAFB);
   static const Color backgroundDark = Color(0xFF111827);
+  //Color(0xFF66BB6A)
 
   // ------- LIGHT THEME -------
   static ThemeData get lightTheme {

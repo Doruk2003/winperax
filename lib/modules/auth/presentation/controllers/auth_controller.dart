@@ -21,7 +21,7 @@ class AuthController extends GetxController {
       if (user != null) {
         // Kullanıcı giriş yaptıysa ana sayfaya yönlendirme gibi davranışlar
         // Ancak navigation'ı burada zorlamak istemezsen kaldırabilirsin
-        Get.offAllNamed('/home');
+        Get.offAllNamed('/dashboard');
       } else {
         Get.offAllNamed('/login');
       }

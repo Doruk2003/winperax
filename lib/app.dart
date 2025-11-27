@@ -7,6 +7,8 @@ import 'package:winperax/modules/auth/presentation/views/otp_screen.dart';
 import 'package:winperax/modules/auth/presentation/views/signup_view.dart';
 import 'package:winperax/app/shared/ui/theme/app_theme.dart';
 import 'package:winperax/app/core/controllers/theme_controller.dart';
+import 'package:winperax/modules/dashboard/presentation/views/dashboard_view.dart';
+import 'package:winperax/modules/dashboard/presentation/controllers/dashboard_controller.dart'; // 👈 Eklendi
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
@@ -16,6 +18,7 @@ class MyApp extends StatelessWidget {
     // Global Controller Inject
     Get.put(AuthController());
     Get.put(ThemeController());
+    Get.put(DashboardController()); // 👈 Eklendi
 
     return GetMaterialApp(
       title: 'WINPERAX UI',
@@ -35,6 +38,7 @@ class MyApp extends StatelessWidget {
         GetPage(name: '/signup', page: () => SignupView()),
         GetPage(name: '/forgot', page: () => ForgotPasswordView()),
         GetPage(name: '/otp', page: () => OtpScreen()),
+        GetPage(name: '/dashboard', page: () => DashboardView()),
       ],
     );
   }

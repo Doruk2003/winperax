@@ -8,10 +8,8 @@ import 'package:winperax/modules/dashboard/presentation/widgets/pie_chart.dart';
 import 'package:winperax/modules/dashboard/presentation/widgets/recent_activity_table.dart';
 
 class DashboardContent extends StatelessWidget {
-  DashboardContent({super.key});
-  final controller = Get.find<DashboardController>();
+  const DashboardContent({super.key});
 
-  // responsive grid column count
   int _columnsForWidth(double w) {
     if (w > 1200) return 4;
     if (w > 800) return 2;
@@ -20,63 +18,72 @@ class DashboardContent extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final width = MediaQuery.of(context).size.width;
+    final controller = Get.find<DashboardController>();
 
-    return Padding(
+    return SingleChildScrollView(
       padding: const EdgeInsets.all(16),
       child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          // TOP ROW: Stat cards
+          /// ===========================
+          ///   STAT CARDS
+          /// ===========================
           LayoutBuilder(
             builder: (ctx, constraints) {
               final cols = _columnsForWidth(constraints.maxWidth);
+              final itemWidth = (constraints.maxWidth / cols) - 12;
+
               return Wrap(
-                runSpacing: 12,
                 spacing: 12,
+                runSpacing: 12,
                 children: [
                   SizedBox(
-                    width: constraints.maxWidth / cols - 12,
+                    width: itemWidth,
                     child: Obx(() {
+                      final revenue = controller.stats['revenue'];
                       return StatCard(
                         icon: Icons.paid,
                         title: 'Gelir',
-                        value: '\$${controller.stats['revenue']}',
+                        value: '\$$revenue',
                         delta: '+8%',
                         color: Colors.green,
                       );
                     }),
                   ),
                   SizedBox(
-                    width: constraints.maxWidth / cols - 12,
+                    width: itemWidth,
                     child: Obx(() {
+                      final orders = controller.stats['orders'];
                       return StatCard(
                         icon: Icons.shopping_cart,
                         title: 'Sipariş',
-                        value: '${controller.stats['orders']}',
+                        value: '$orders',
                         delta: '+3%',
                         color: Colors.blue,
                       );
                     }),
                   ),
                   SizedBox(
-                    width: constraints.maxWidth / cols - 12,
+                    width: itemWidth,
                     child: Obx(() {
+                      final customers = controller.stats['customers'];
                       return StatCard(
                         icon: Icons.people,
                         title: 'Müşteri',
-                        value: '${controller.stats['customers']}',
+                        value: '$customers',
                         delta: '+1.2%',
                         color: Colors.orange,
                       );
                     }),
                   ),
                   SizedBox(
-                    width: constraints.maxWidth / cols - 12,
+                    width: itemWidth,
                     child: Obx(() {
+                      final conversion = controller.stats['conversion'];
                       return StatCard(
                         icon: Icons.show_chart,
                         title: 'Dönüşüm',
-                        value: '${controller.stats['conversion']}%',
+                        value: '$conversion%',
                         delta: '-0.4%',
                         color: Colors.purple,
                       );
@@ -87,73 +94,67 @@ class DashboardContent extends StatelessWidget {
             },
           ),
 
-          const SizedBox(height: 16),
+          const SizedBox(height: 24),
 
-          // CHARTS ROW
+          /// ===========================
+          ///   CHARTS
+          /// ===========================
           LayoutBuilder(
             builder: (ctx, constraints) {
               final w = constraints.maxWidth;
+
               if (w > 1200) {
-                // big screens: line + bar + pie side by side
                 return Row(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Expanded(
-                      child: Obx(
-                        () => LineChartWidget(data: controller.lineData),
-                      ),
+                      child: LineChartWidget( data: controller.lineData), // ✅ named parameter
                     ),
                     const SizedBox(width: 12),
                     Expanded(
-                      child: Obx(
-                        () => BarChartWidget(data: controller.barData),
-                      ),
+                      child: BarChartWidget( data: controller.barData), // ✅ named parameter
                     ),
                     const SizedBox(width: 12),
                     SizedBox(
                       width: 320,
-                      child: Obx(
-                        () => PieChartWidget(data: controller.pieData),
-                      ),
+                      child: PieChartWidget( data: controller.pieData), // ✅ named parameter
                     ),
-                  ],
-                );
-              } else if (w > 800) {
-                // tablet: line + pie
-                return Row(
-                  children: [
-                    Expanded(
-                      child: Obx(
-                        () => LineChartWidget(data: controller.lineData),
-                      ),
-                    ),
-                    const SizedBox(width: 12),
-                    SizedBox(
-                      width: 320,
-                      child: Obx(
-                        () => PieChartWidget(data: controller.pieData),
-                      ),
-                    ),
-                  ],
-                );
-              } else {
-                // mobile: stacked
-                return Column(
-                  children: [
-                    Obx(() => LineChartWidget(data: controller.lineData)),
-                    const SizedBox(height: 12),
-                    Obx(() => BarChartWidget(data: controller.barData)),
-                    const SizedBox(height: 12),
-                    Obx(() => PieChartWidget(data: controller.pieData)),
                   ],
                 );
               }
+
+              if (w > 800) {
+                return Row(
+                  children: [
+                    Expanded(
+                      child: LineChartWidget( data: controller.lineData), // ✅ named parameter
+                    ),
+                    const SizedBox(width: 12),
+                    SizedBox(
+                      width: 320,
+                      child: PieChartWidget( data: controller.pieData), // ✅ named parameter
+                    ),
+                  ],
+                );
+              }
+
+              return Column(
+                children: [
+                  LineChartWidget( data: controller.lineData), // ✅ named parameter
+                  const SizedBox(height: 12),
+                  BarChartWidget( data: controller.barData), // ✅ named parameter
+                  const SizedBox(height: 12),
+                  PieChartWidget( data: controller.pieData), // ✅ named parameter
+                ],
+              );
             },
           ),
 
-          const SizedBox(height: 16),
+          const SizedBox(height: 24),
 
-          // Recent activity table
+          /// ===========================
+          ///   RECENT ACTIVITY TABLE
+          /// ===========================
           const RecentActivityTable(),
         ],
       ),

@@ -10,33 +10,43 @@ class DashboardView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // ensure controller is available
-    Get.put(DashboardController());
-    final controller = Get.find<DashboardController>();
+    final controller = Get.find<DashboardController>(); // 👈 Bu satır eklendi
 
     return Scaffold(
-      appBar: DashboardAppBar(),
       body: Stack(
         children: [
           Row(
             children: [
               SideMenuResponsive(),
-              Expanded(child: DashboardContent()),
+
+              Expanded(
+                child: Column(
+                  children: [
+                    const DashboardAppBar(),
+                    const SizedBox(height: 8),
+
+                    const Expanded(child: DashboardContent()),
+                  ],
+                ),
+              ),
             ],
           ),
 
-          // mobile overlay when menu open
+          /// MOBILE OVERLAY
           Obx(() {
             final isMobile = MediaQuery.of(context).size.width < 800;
-            if (!isMobile || !controller.isMenuOpen.value) {
-              return const SizedBox.shrink();
-            }
+            final menuOpen = controller.isMenuOpen.value;
+
+            if (!isMobile || !menuOpen) return const SizedBox.shrink();
+
             return GestureDetector(
               onTap: () => controller.isMenuOpen.value = false,
               child: AnimatedOpacity(
                 duration: const Duration(milliseconds: 200),
-                opacity: controller.isMenuOpen.value ? 1 : 0,
-                child: Container(color: Colors.black.withValues(alpha: 0.35)),
+                opacity: menuOpen ? 1 : 0,
+                child: Container(
+                  color: Colors.black.withOpacity(.35),
+                ),
               ),
             );
           }),

@@ -1,94 +1,78 @@
-// FILE: lib/modules/dashboard/presentation/widgets/pie_chart.dart
-
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+
 
 class PieChartWidget extends StatelessWidget {
-  final Map<String, double> data;
-
+  final RxMap<String, double> data;
   const PieChartWidget({super.key, required this.data});
 
   @override
   Widget build(BuildContext context) {
-    final entries = data.entries.toList();
-
-    // Pie renkleri (otomatik döner)
-    final colors = [
-      Theme.of(context).colorScheme.primary,
-      Theme.of(context).colorScheme.secondary,
-      Colors.amber,
-      Colors.green,
-      Colors.pink,
-      Colors.blueGrey,
-    ];
-
     return Card(
-      elevation: 1,
       child: Container(
-        padding: const EdgeInsets.all(16),
+        padding: const EdgeInsets.all(12),
         height: 220,
-        child: Row(
-          children: [
-            // Pie chart
-            Expanded(
-              child: PieChart(
-                PieChartData(
-                  sectionsSpace: 3,
-                  centerSpaceRadius: 28,
-                  sections: List.generate(entries.length, (i) {
-                    final item = entries[i];
-                    return PieChartSectionData(
-                      value: item.value,
-                      title: "${item.value.toInt()}%",
-                      color: colors[i % colors.length],
-                      radius: 48,
-                      titleStyle: const TextStyle(
-                        fontSize: 12,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.white,
-                      ),
-                    );
-                  }),
+        child: Obx(() {
+          final entries = data.entries.toList();
+          final colors = [
+            const Color.fromARGB(255, 214, 177, 11), // 🟢 Açık yeşil
+            const Color.fromARGB(255, 17, 129, 173), // 🔵 Mavi
+            const Color.fromARGB(255, 165, 38, 72), // 🌸 Fuşya
+            const Color.fromARGB(255, 10, 190, 10), // 🟢 Koyu yeşil
+          ];
+
+          return Row(
+            children: [
+              Expanded(
+                child: PieChart(
+                  PieChartData(
+                    sectionsSpace: 4,
+                    centerSpaceRadius: 28,
+                    sections: List.generate(entries.length, (i) {
+                      final e = entries[i];
+                      return PieChartSectionData(
+                        value: e.value,
+                        title: '${e.value.toInt()}%',
+                        color: colors[i % colors.length],
+                        radius: 48,
+                        titleStyle: const TextStyle(fontSize: 12, fontWeight: FontWeight.bold, color: Colors.white),
+                      );
+                    }),
+                  ),
                 ),
               ),
-            ),
-
-            const SizedBox(width: 16),
-
-            // Legend
-            Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: List.generate(entries.length, (i) {
-                final item = entries[i];
-                return Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 4),
-                  child: Row(
-                    children: [
-                      Container(
-                        width: 14,
-                        height: 14,
-                        decoration: BoxDecoration(
-                          color: colors[i % colors.length],
-                          shape: BoxShape.circle,
+              const SizedBox(width: 12),
+              Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: List.generate(entries.length, (i) {
+                  final e = entries[i];
+                  return Padding(
+                    padding: const EdgeInsets.symmetric(vertical: 6),
+                    child: Row(
+                      children: [
+                        Container(
+                          width: 12,
+                          height: 12,
+                          decoration: BoxDecoration(
+                            color: colors[i % colors.length],
+                            shape: BoxShape.circle,
+                          ),
                         ),
-                      ),
-                      const SizedBox(width: 8),
-                      Text(
-                        item.key,
-                        style: const TextStyle(
-                          fontFamily: "Montserrat",
-                          fontSize: 13,
-                          fontWeight: FontWeight.w600,
+                        const SizedBox(width: 8),
+                        Text(
+                          e.key,
+                          style: const TextStyle(fontFamily: "Montserrat", fontWeight: FontWeight.w600),
                         ),
-                      ),
-                    ],
-                  ),
-                );
-              }),
-            ),
-          ],
-        ),
+                      ],
+                    ),
+                  );
+                }),
+              ),
+            ],
+          );
+        }),
       ),
     );
   }

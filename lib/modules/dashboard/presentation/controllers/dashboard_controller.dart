@@ -1,11 +1,14 @@
+// FILE: lib/modules/dashboard/presentation/controllers/dashboard_controller.dart
 import 'package:get/get.dart';
-// import 'package:flutter/material.dart';
+
 
 class DashboardController extends GetxController {
   final RxInt selectedMenuIndex = 0.obs;
   final RxBool isMenuOpen = false.obs;
 
-  // Sample stats (could be populated from domain layer later)
+  // Yeni: Sidebar'ın dar/geniş modunu tutar
+  final RxBool isCompact = false.obs;
+
   final RxMap<String, dynamic> stats = <String, dynamic>{
     "revenue": 25430,
     "orders": 1284,
@@ -13,16 +16,7 @@ class DashboardController extends GetxController {
     "conversion": 4.7,
   }.obs;
 
-  // Sample time-series data for charts
-  final RxList<double> lineData = <double>[
-    120,
-    150,
-    180,
-    170,
-    200,
-    230,
-    210,
-  ].obs;
+  final RxList<double> lineData = <double>[120, 150, 180, 170, 200, 230, 210].obs;
   final RxList<double> barData = <double>[5, 8, 6, 10, 12, 9, 11].obs;
   final RxMap<String, double> pieData = <String, double>{
     "Product A": 40,
@@ -48,4 +42,9 @@ class DashboardController extends GetxController {
   }
 
   void toggleMenu() => isMenuOpen.value = !isMenuOpen.value;
+
+  // Yeni: Sidebar'ı daraltma/genişletme fonksiyonu
+  void toggleCompactMode() {
+    isCompact.value = !isCompact.value;
+  }
 }

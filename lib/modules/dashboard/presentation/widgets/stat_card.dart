@@ -18,19 +18,17 @@ class StatCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final cardColor = Theme.of(context).cardColor;
+    // Why: small visual card for KPIs
+    final bg = Theme.of(context).cardColor;
     return Card(
       child: Container(
-        padding: const EdgeInsets.all(16),
+        padding: const EdgeInsets.all(14),
         child: Row(
           children: [
             CircleAvatar(
               backgroundColor: (color ?? Theme.of(context).colorScheme.primary)
                   .withValues(alpha: 0.12),
-              child: Icon(
-                icon,
-                color: color ?? Theme.of(context).colorScheme.primary,
-              ),
+              child: Icon(icon, color: color ?? Theme.of(context).colorScheme.primary),
             ),
             const SizedBox(width: 16),
             Expanded(
@@ -42,9 +40,9 @@ class StatCard extends StatelessWidget {
                   Text(
                     value,
                     style: Theme.of(context).textTheme.titleLarge?.copyWith(
-                      fontFamily: "Montserrat",
-                      fontWeight: FontWeight.w700,
-                    ),
+                          fontFamily: "Montserrat",
+                          fontWeight: FontWeight.w700,
+                        ),
                   ),
                 ],
               ),

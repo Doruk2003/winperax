@@ -4,28 +4,34 @@ import 'package:winperax/modules/dashboard/presentation/controllers/dashboard_co
 import 'package:winperax/modules/dashboard/presentation/widgets/side_menu.dart';
 
 class SideMenuResponsive extends StatelessWidget {
-  SideMenuResponsive({super.key});
-  final controller = Get.find<DashboardController>();
+  const SideMenuResponsive({super.key});
 
   @override
   Widget build(BuildContext context) {
-    final width = MediaQuery.of(context).size.width;
+    final controller = Get.find<DashboardController>();
 
+    final width = MediaQuery.of(context).size.width;
     final isDesktop = width > 1200;
     final isTablet = width > 800 && width <= 1200;
 
-    // DESKTOP → geniş menü
     if (isDesktop) {
-      return SizedBox(width: 260, child: SideMenu(isCompact: false));
+      return Obx(() => SizedBox(
+            width: controller.isCompact.value ? 96 : 260, // Genişliği de dinamik yapabiliriz
+            child: SideMenu(isCompact: controller.isCompact.value),
+          ));
     }
 
-    // TABLET → compact menü
+    // ✅ Tablet için de controller.isCompact.value kullan
     if (isTablet) {
-      return SizedBox(width: 96, child: SideMenu(isCompact: true));
+      return Obx(() => SizedBox(
+            width: controller.isCompact.value ? 96 : 260, // Genişliği de dinamik yapabiliriz
+            child: SideMenu(isCompact: controller.isCompact.value),
+          ));
     }
 
-    // MOBILE → slide drawer
+    // Mobil: Controller'ı dinlemeden sabit menü
     return Obx(() {
+      // mobile drawer slide
       return AnimatedPositioned(
         duration: const Duration(milliseconds: 220),
         left: controller.isMenuOpen.value ? 0 : -260,
@@ -33,10 +39,7 @@ class SideMenuResponsive extends StatelessWidget {
         bottom: 0,
         child: SizedBox(
           width: 260,
-          child: Material(
-            elevation: 16,
-            child: SideMenu(isCompact: false), // mobile = full menu
-          ),
+          child: Material(elevation: 16, child: const SideMenu(isCompact: false)),
         ),
       );
     });

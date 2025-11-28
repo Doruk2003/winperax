@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:winperax/modules/dashboard/presentation/controllers/dashboard_controller.dart';
+import 'package:winperax/modules/dashboard/presentation/widgets/sidebar_item.dart'; // 👈 Ekle
 
 class SideMenu extends StatelessWidget {
-  SideMenu({super.key, required bool isCompact});
+  final bool isCompact;
+  const SideMenu({super.key, required this.isCompact});
 
-  final DashboardController controller = Get.find();
-
-  final List<Map<String, dynamic>> menuItems = [
+  static const List<Map<String, dynamic>> _menuItems = [
     {"icon": Icons.dashboard_outlined, "label": "Panel"},
     {"icon": Icons.people_alt_outlined, "label": "Cari"},
     {"icon": Icons.inventory_2_outlined, "label": "Stok"},
@@ -20,87 +20,54 @@ class SideMenu extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final controller = Get.find<DashboardController>();
+
+    // 🎯 Sidebar arka plan rengini burada belirleyelim
+    final sidebarBg = Theme.of(context).brightness == Brightness.dark
+        ? const Color(0xFF111827) // Daha koyu
+        : Theme.of(context).colorScheme.surface;
+
     return Container(
-      width: 260,
-      color: Theme.of(context).colorScheme.surface,
+      color: sidebarBg,
+      padding: const EdgeInsets.symmetric(vertical: 70, horizontal: 8),
       child: Column(
         children: [
-          const SizedBox(height: 40),
-
-          Image.asset(
-            "assets/images/winperax.png",
-            height: 60,
-            fit: BoxFit.contain,
+          SizedBox(
+            height: 96,
+            child: isCompact
+                ? const Center(child: Icon(Icons.flutter_dash))
+                : Image.asset('assets/images/winperax.png', height: 90),
           ),
-
-          const SizedBox(height: 20),
-
+          const SizedBox(height: 24),
+          const SizedBox(height: 18),
           Expanded(
             child: ListView.builder(
-              itemCount: menuItems.length,
-              itemBuilder: (context, index) {
+              itemCount: _menuItems.length,
+              itemBuilder: (ctx, index) {
                 return Obx(() {
                   final isSelected =
                       controller.selectedMenuIndex.value == index;
-
-                  return GestureDetector(
+                  return SidebarItem(
+                    icon: _menuItems[index]['icon'],
+                    label: _menuItems[index]['label'],
+                    isSelected: isSelected,
                     onTap: () => controller.changeMenu(index),
-                    child: AnimatedContainer(
-                      duration: const Duration(milliseconds: 200),
-                      margin: const EdgeInsets.symmetric(
-                        horizontal: 12,
-                        vertical: 6,
-                      ),
-                      padding: const EdgeInsets.symmetric(
-                        vertical: 12,
-                        horizontal: 10,
-                      ),
-                      decoration: BoxDecoration(
-                        color: isSelected
-                            ? Theme.of(
-                                context,
-                              ).colorScheme.primary.withValues(alpha: 0.15)
-                            : Colors.transparent,
-                        borderRadius: BorderRadius.circular(10),
-                      ),
-                      child: Row(
-                        children: [
-                          Icon(
-                            menuItems[index]["icon"],
-                            color: isSelected
-                                ? Theme.of(context).colorScheme.primary
-                                : Colors.grey.shade600,
-                          ),
-                          const SizedBox(width: 12),
-                          Text(
-                            menuItems[index]["label"],
-                            style: TextStyle(
-                              fontSize: 15,
-                              fontFamily: "Montserrat",
-                              fontWeight: isSelected
-                                  ? FontWeight.bold
-                                  : FontWeight.w500,
-                              color: isSelected
-                                  ? Theme.of(context).colorScheme.primary
-                                  : Colors.grey.shade700,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
+                    isCompact: isCompact,
                   );
                 });
               },
             ),
           ),
-
-          const Padding(
-            padding: EdgeInsets.only(bottom: 20),
-            child: Text(
-              "Oğuz Türkyılmaz - V1.0",
-              style: TextStyle(fontSize: 12, color: Colors.grey),
+          if (!isCompact) ...[
+            const SizedBox(height: 8),
+            const Padding(
+              padding: EdgeInsets.only(bottom: 8),
+              child: Text(
+                "Oğuz Türkyılmaz - V1.0",
+                style: TextStyle(fontSize: 12),
+              ),
             ),
-          ),
+          ],
         ],
       ),
     );

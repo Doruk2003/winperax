@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:winperax/app/core/theme/colors.dart';
 
 class SidebarItem extends StatefulWidget {
   final IconData icon;
@@ -25,13 +26,20 @@ class _SidebarItemState extends State<SidebarItem> {
 
   @override
   Widget build(BuildContext context) {
-    // Renkler
+    // Tema rengine göre hover ve selected metin renkleri
+    final brightness = Theme.of(context).brightness;
+    final hoverTextColor = brightness == Brightness.dark
+        ? Colors.white
+        : AppColors.textColorLight;
+    final selectedTextColor = brightness == Brightness.dark
+        ? Colors.white
+        : AppColors.textColorLight;
+
+    // Diğer renkler
     final primaryColor = Theme.of(context).colorScheme.primary;
-    final hoverIconColor = const Color(0xFF10B981); // 🟢 Canlı yeşil (ikon için)
-    final hoverTextColor = Colors.white; // ⚪ Beyaz (yazı için)
-    final selectedIconColor = const Color(0xFFFF9900); // 🟠 Seçim ikon rengi
-    final selectedTextColor = const Color.fromARGB(255, 226, 225, 225); // ⚪ Seçim yazı rengi
-    final defaultColor = Colors.grey.shade600;
+    final hoverIconColor = AppColors.primaryColor; // ✅ Orta gri
+    final selectedIconColor = AppColors.primaryColor; // ✅ Mor
+    final defaultColor = AppColors.iconColorLight; // ✅ Orta gri
 
     return MouseRegion(
       onEnter: (_) => setState(() => isHovered = true),
@@ -44,10 +52,16 @@ class _SidebarItemState extends State<SidebarItem> {
           padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 12),
           decoration: BoxDecoration(
             color: widget.isSelected
-                ? primaryColor.withValues(alpha: 0.12) // Seçili arka plan
+                ? (brightness == Brightness.dark
+                      ? primaryColor.withValues(alpha: 0.12)
+                      : AppColors
+                            .sidebarSelectedLight) // ✅ Light tema için açık gri
                 : (isHovered
-                    ? primaryColor.withValues(alpha: 0.08) // Hover arka plan (isteğe bağlı)
-                    : Colors.transparent),
+                      ? (brightness == Brightness.dark
+                            ? primaryColor.withValues(alpha: 0.08)
+                            : AppColors
+                                  .sidebarHoverLight) // ✅ Light tema için hover
+                      : Colors.transparent),
             borderRadius: BorderRadius.circular(12),
           ),
           child: Row(
@@ -55,10 +69,10 @@ class _SidebarItemState extends State<SidebarItem> {
               Icon(
                 widget.icon,
                 color: widget.isSelected
-                    ? selectedIconColor // 🟠 Seçim ikon rengi
+                    ? selectedIconColor // ✅ Seçim ikon rengi: Mor
                     : isHovered
-                        ? hoverIconColor // 🟢 Hover ikon rengi
-                        : defaultColor, // ⚫ Normal renk
+                    ? hoverIconColor // ✅ Hover ikon rengi: Orta gri
+                    : defaultColor, // ✅ Normal ikon rengi: Orta gri
               ),
               if (!widget.isCompact) ...[
                 const SizedBox(width: 12),
@@ -68,11 +82,14 @@ class _SidebarItemState extends State<SidebarItem> {
                     style: TextStyle(
                       fontFamily: "Montserrat",
                       color: widget.isSelected
-                          ? selectedTextColor // ⚪ Seçim yazı rengi
+                          ? primaryColor // ✅ Seçim yazı rengi: Koyu gri
                           : isHovered
-                              ? hoverTextColor // ⚪ Hover yazı rengi
-                              : defaultColor, // ⚫ Normal renk
-                      fontWeight: widget.isSelected ? FontWeight.normal : FontWeight.normal,
+                          ? primaryColor // ✅ Hover yazı rengi: Koyu gri
+                          : AppColors
+                                .iconColorLight, // ✅ Normal yazı rengi: Orta gri
+                      fontWeight: widget.isSelected
+                          ? FontWeight.normal
+                          : FontWeight.normal,
                     ),
                   ),
                 ),

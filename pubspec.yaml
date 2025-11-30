@@ -36,7 +36,8 @@ flutter:
     - assets/images/facebook.png
     - assets/images/google.png
     - assets/images/winperax.png
-    - assets/images/user.png     # ← DÜZELTİLDİ
+    - assets/images/winperax_light.png
+    - assets/images/user.png
     - assets/illustrations/login_illustration.png
 
   fonts:

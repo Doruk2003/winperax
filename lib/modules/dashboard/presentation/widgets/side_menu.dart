@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:winperax/app/core/theme/colors.dart';
 import 'package:winperax/modules/dashboard/presentation/controllers/dashboard_controller.dart';
-import 'package:winperax/modules/dashboard/presentation/widgets/sidebar_item.dart'; // 👈 Ekle
+import 'package:winperax/modules/dashboard/presentation/widgets/sidebar_item.dart';
 
 class SideMenu extends StatelessWidget {
   final bool isCompact;
@@ -24,8 +25,8 @@ class SideMenu extends StatelessWidget {
 
     // 🎯 Sidebar arka plan rengini burada belirleyelim
     final sidebarBg = Theme.of(context).brightness == Brightness.dark
-        ? const Color(0xFF111827) // Daha koyu
-        : Theme.of(context).colorScheme.surface;
+        ? AppColors.sidebarDark
+        : AppColors.sidebarBgLight; // ✅ Light tema için hafif mavi-gri
 
     return Container(
       color: sidebarBg,
@@ -36,7 +37,7 @@ class SideMenu extends StatelessWidget {
             height: 96,
             child: isCompact
                 ? const Center(child: Icon(Icons.flutter_dash))
-                : Image.asset('assets/images/winperax.png', height: 90),
+                : ThemeLogo(isCompact: isCompact),
           ),
           const SizedBox(height: 24),
           const SizedBox(height: 18),
@@ -60,16 +61,38 @@ class SideMenu extends StatelessWidget {
           ),
           if (!isCompact) ...[
             const SizedBox(height: 8),
-            const Padding(
-              padding: EdgeInsets.only(bottom: 8),
+            Padding(
+              padding: const EdgeInsets.only(bottom: 8),
               child: Text(
                 "Oğuz Türkyılmaz - V1.0",
-                style: TextStyle(fontSize: 12),
+                style: TextStyle(
+                  fontSize: 12,
+                  color: AppColors.textColorLight,
+                ), // ✅ Koyu gri yazı
               ),
             ),
           ],
         ],
       ),
+    );
+  }
+}
+
+// ✅ Logo için ayrı bir widget
+class ThemeLogo extends StatelessWidget {
+  final bool isCompact;
+
+  const ThemeLogo({super.key, required this.isCompact});
+
+  @override
+  Widget build(BuildContext context) {
+    // 🌞 Temaya göre logo seç
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+    return Image.asset(
+      isDark
+          ? 'assets/images/winperax.png' // Dark theme
+          : 'assets/images/winperax_light.png', // Light theme
+      height: 90,
     );
   }
 }

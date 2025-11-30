@@ -2,7 +2,6 @@ import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-
 class BarChartWidget extends StatelessWidget {
   final RxList<double> data;
   const BarChartWidget({super.key, required this.data});
@@ -12,10 +11,18 @@ class BarChartWidget extends StatelessWidget {
     return Card(
       child: Container(
         padding: const EdgeInsets.all(12),
-        height: 200,
+        height: 240, // ✅ LineChart ile eşitleniyor
         child: Obx(() {
           final groups = List.generate(data.length, (i) {
-            return BarChartGroupData(x: i, barRods: [BarChartRodData(toY: data[i], color: const Color(0xFFFF9900))]); // 🟠 Turuncu
+            return BarChartGroupData(
+              x: i,
+              barRods: [
+                BarChartRodData(
+                  toY: data[i],
+                  color: const Color(0xFFFF9900), // 🟠 Turuncu
+                ),
+              ],
+            );
           });
           return BarChart(
             BarChartData(
@@ -33,8 +40,18 @@ class BarChartWidget extends StatelessWidget {
                 ),
               ),
               titlesData: FlTitlesData(
-                bottomTitles: AxisTitles(sideTitles: SideTitles(showTitles: true)),
-                leftTitles: AxisTitles(sideTitles: SideTitles(showTitles: true)),
+                bottomTitles: AxisTitles(
+                  sideTitles: SideTitles(
+                    showTitles: true,
+                    reservedSize: 30, // Alt eksen etiketlerinin yer kaplaması
+                  ),
+                ),
+                leftTitles: AxisTitles(
+                  sideTitles: SideTitles(
+                    showTitles: true,
+                    reservedSize: 40, // Sol eksen etiketlerinin yer kaplaması
+                  ),
+                ),
               ),
               barGroups: groups,
             ),

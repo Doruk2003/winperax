@@ -1,15 +1,10 @@
+// FILE: lib/app/core/theme/app_theme.dart
 import 'package:flutter/material.dart';
+import 'colors.dart'; // ✅ Renk sabitlerini içe aktar
 
 class AppTheme {
-  // ------- COLORS -------
-  static const Color primaryColor = Color(0xFF4F46E5);
-  static const Color secondaryColor = Color(0xFF6366F1);
-  static const Color backgroundLight = Color(0xFFF9FAFB);
-
-  // Dark theme için yeni renkler
-  static const Color backgroundDark = Color(0xFF1F2937); // Panel arka planı
-  static const Color cardDark = Color(0xFF2D3748); // Cardlar
-  static const Color sidebarDark = Color(0xFF111827); // Sidebar için daha koyu
+  // ------- DIMENSIONS -------
+  static const double appBarHeight = 80;
 
   // ------- LIGHT THEME -------
   static ThemeData get lightTheme {
@@ -17,31 +12,49 @@ class AppTheme {
       useMaterial3: true,
       brightness: Brightness.light,
       colorScheme: ColorScheme.fromSeed(
-        seedColor: primaryColor,
+        seedColor: AppColors.primaryColor,
         brightness: Brightness.light,
       ),
 
-      scaffoldBackgroundColor: backgroundLight,
-      appBarTheme: const AppBarTheme(
+      scaffoldBackgroundColor: AppColors.backgroundLight, // ✅ Beyaz
+
+      appBarTheme: AppBarTheme(
         elevation: 0,
         backgroundColor: Colors.transparent,
-        foregroundColor: Colors.black87,
+        foregroundColor: AppColors.textColorLight, // ✅ Koyu gri
         centerTitle: true,
+        toolbarHeight: appBarHeight,
       ),
 
-      textTheme: const TextTheme(
-        headlineLarge: TextStyle(fontSize: 32, fontWeight: FontWeight.bold),
-        headlineMedium: TextStyle(fontSize: 26, fontWeight: FontWeight.w600),
-        titleLarge: TextStyle(fontSize: 20, fontWeight: FontWeight.w600),
-        bodyLarge: TextStyle(fontSize: 16),
-        bodyMedium: TextStyle(fontSize: 14),
+      textTheme: TextTheme(
+        headlineLarge: TextStyle(
+          fontSize: 32,
+          fontWeight: FontWeight.bold,
+          color: AppColors.textColorLight,
+        ),
+        headlineMedium: TextStyle(
+          fontSize: 26,
+          fontWeight: FontWeight.w600,
+          color: AppColors.textColorLight,
+        ),
+        titleLarge: TextStyle(
+          fontSize: 20,
+          fontWeight: FontWeight.w600,
+          color: AppColors.textColorLight,
+        ),
+        bodyLarge: TextStyle(fontSize: 16, color: AppColors.textColorLight),
+        bodyMedium: TextStyle(fontSize: 14, color: AppColors.textColorLight),
       ),
 
-      cardTheme: const CardThemeData(
+      cardTheme: CardThemeData(
         elevation: 0,
-        margin: EdgeInsets.all(8),
+        margin: const EdgeInsets.all(8),
+        color: AppColors.backgroundLight, // ✅ Beyaz
         shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.all(Radius.circular(16)),
+          borderRadius: BorderRadius.circular(16),
+          side: BorderSide(
+            color: AppColors.cardBorderLight,
+          ), // ✅ Açık gri kenarlık
         ),
       ),
 
@@ -61,7 +74,7 @@ class AppTheme {
       elevatedButtonTheme: ElevatedButtonThemeData(
         style: ElevatedButton.styleFrom(
           foregroundColor: Colors.white,
-          backgroundColor: primaryColor,
+          backgroundColor: AppColors.primaryColor,
           padding: const EdgeInsets.symmetric(vertical: 14),
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(14),
@@ -78,18 +91,18 @@ class AppTheme {
       useMaterial3: true,
       brightness: Brightness.dark,
       colorScheme: ColorScheme.fromSeed(
-        seedColor: primaryColor,
+        seedColor: AppColors.primaryColor,
         brightness: Brightness.dark,
       ),
 
-      // Yeni: Panel arka planı
-      scaffoldBackgroundColor: backgroundDark,
+      scaffoldBackgroundColor: AppColors.backgroundDark,
 
-      appBarTheme: const AppBarTheme(
+      appBarTheme: AppBarTheme(
         backgroundColor: Colors.transparent,
         foregroundColor: Colors.white,
         elevation: 0,
         centerTitle: true,
+        toolbarHeight: appBarHeight,
       ),
 
       textTheme: const TextTheme(
@@ -100,11 +113,10 @@ class AppTheme {
         bodyMedium: TextStyle(fontSize: 14),
       ),
 
-      // Yeni: Card rengi
       cardTheme: CardThemeData(
         elevation: 0,
         margin: const EdgeInsets.all(8),
-        color: cardDark,
+        color: AppColors.cardDark,
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
       ),
 
@@ -124,7 +136,7 @@ class AppTheme {
       elevatedButtonTheme: ElevatedButtonThemeData(
         style: ElevatedButton.styleFrom(
           foregroundColor: Colors.white,
-          backgroundColor: secondaryColor,
+          backgroundColor: AppColors.secondaryColor,
           padding: const EdgeInsets.symmetric(vertical: 14),
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(14),

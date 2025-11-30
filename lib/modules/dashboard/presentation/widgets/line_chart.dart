@@ -2,7 +2,6 @@ import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-
 class LineChartWidget extends StatelessWidget {
   final RxList<double> data;
   const LineChartWidget({super.key, required this.data});
@@ -12,9 +11,12 @@ class LineChartWidget extends StatelessWidget {
     return Card(
       child: Container(
         padding: const EdgeInsets.all(12),
-        height: 220,
+        height: 240, // Bu değeri de artırabilirsiniz, örneğin 240
         child: Obx(() {
-          final spots = List<FlSpot>.generate(data.length, (i) => FlSpot(i.toDouble(), data[i]));
+          final spots = List<FlSpot>.generate(
+            data.length,
+            (i) => FlSpot(i.toDouble(), data[i]),
+          );
           return LineChart(
             LineChartData(
               gridData: FlGridData(
@@ -31,8 +33,18 @@ class LineChartWidget extends StatelessWidget {
                 ),
               ),
               titlesData: FlTitlesData(
-                bottomTitles: AxisTitles(sideTitles: SideTitles(showTitles: true)),
-                leftTitles: AxisTitles(sideTitles: SideTitles(showTitles: true, reservedSize: 40)),
+                bottomTitles: AxisTitles(
+                  sideTitles: SideTitles(
+                    showTitles: true,
+                    reservedSize: 30, // ✅ Alt eksen etiketlerinin yer kaplaması
+                  ),
+                ),
+                leftTitles: AxisTitles(
+                  sideTitles: SideTitles(
+                    showTitles: true,
+                    reservedSize: 40, // Zaten tanımlıydı, korundu
+                  ),
+                ),
               ),
               lineBarsData: [
                 LineChartBarData(
@@ -42,10 +54,12 @@ class LineChartWidget extends StatelessWidget {
                   dotData: FlDotData(show: false),
                   belowBarData: BarAreaData(
                     show: true,
-                    gradient: LinearGradient(colors: [
-                      const Color(0xFF826CF6).withOpacity(0.15), // Mor mavi
-                      const Color(0xFF826CF6).withOpacity(0.03),
-                    ]),
+                    gradient: LinearGradient(
+                      colors: [
+                        const Color(0xFF826CF6).withOpacity(0.15), // Mor mavi
+                        const Color(0xFF826CF6).withOpacity(0.03),
+                      ],
+                    ),
                   ),
                   color: const Color(0xFF826CF6), // 🟣 Mor mavi
                 ),

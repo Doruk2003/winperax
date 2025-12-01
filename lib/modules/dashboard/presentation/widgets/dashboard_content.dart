@@ -1,161 +1,204 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:winperax/modules/dashboard/presentation/controllers/dashboard_controller.dart';
-import 'package:winperax/modules/dashboard/presentation/widgets/stat_card.dart';
-import 'package:winperax/modules/dashboard/presentation/widgets/line_chart.dart';
-import 'package:winperax/modules/dashboard/presentation/widgets/bar_chart.dart';
-import 'package:winperax/modules/dashboard/presentation/widgets/pie_chart.dart';
-import 'package:winperax/modules/dashboard/presentation/widgets/recent_activity_table.dart';
 
 class DashboardContent extends StatelessWidget {
   const DashboardContent({super.key});
-
-  int _columnsForWidth(double w) {
-    if (w > 1200) return 4;
-    if (w > 800) return 2;
-    return 1;
-  }
 
   @override
   Widget build(BuildContext context) {
     final controller = Get.find<DashboardController>();
 
-    return SingleChildScrollView(
-      padding: const EdgeInsets.all(16),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 8),
+      child: Row(
         children: [
-          /// ===========================
-          ///   STAT CARDS
-          /// ===========================
-          LayoutBuilder(
-            builder: (ctx, constraints) {
-              final cols = _columnsForWidth(constraints.maxWidth);
-              final itemWidth = (constraints.maxWidth / cols) - 12;
-
-              return Wrap(
-                spacing: 12,
-                runSpacing: 12,
-                children: [
-                  SizedBox(
-                    width: itemWidth,
-                    child: Obx(() {
-                      final revenue = controller.stats['revenue'];
-                      return StatCard(
-                        icon: Icons.paid,
-                        title: 'Gelir',
-                        value: '\$$revenue',
-                        delta: '+8%',
-                        color: Colors.green,
-                      );
-                    }),
+          // 👇 1. Kart: Gelir
+          Expanded(
+            flex: 1, // ✅ Sabit genişlik
+            child: SizedBox(
+              height: 90, // ✅ Yükseklik 90 piksel
+              child: Card(
+                child: Padding(
+                  padding: const EdgeInsets.all(8),
+                  child: Stack(
+                    children: [
+                      Positioned(
+                        top: 4,
+                        right: 4,
+                        child: Text(
+                          "+8%",
+                          style: TextStyle(color: Colors.green, fontWeight: FontWeight.normal, fontSize: 12),
+                        ),
+                      ),
+                      Center( // ✅ Sayısal bilgileri center yap
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Icon(Icons.attach_money, color: Colors.green, size: 20),
+                                const SizedBox(width: 4),
+                                Text("Gelir", style: Theme.of(context).textTheme.titleSmall?.copyWith(fontSize: 12)),
+                              ],
+                            ),
+                            const SizedBox(height: 4),
+                            Text(
+                              "\$${controller.stats.value['revenue']}",
+                              style: TextStyle(fontSize: 16, fontWeight: FontWeight.normal),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ],
                   ),
-                  SizedBox(
-                    width: itemWidth,
-                    child: Obx(() {
-                      final orders = controller.stats['orders'];
-                      return StatCard(
-                        icon: Icons.shopping_cart,
-                        title: 'Sipariş',
-                        value: '$orders',
-                        delta: '+3%',
-                        color: Colors.blue,
-                      );
-                    }),
-                  ),
-                  SizedBox(
-                    width: itemWidth,
-                    child: Obx(() {
-                      final customers = controller.stats['customers'];
-                      return StatCard(
-                        icon: Icons.people,
-                        title: 'Müşteri',
-                        value: '$customers',
-                        delta: '+1.2%',
-                        color: Colors.orange,
-                      );
-                    }),
-                  ),
-                  SizedBox(
-                    width: itemWidth,
-                    child: Obx(() {
-                      final conversion = controller.stats['conversion'];
-                      return StatCard(
-                        icon: Icons.show_chart,
-                        title: 'Dönüşüm',
-                        value: '$conversion%',
-                        delta: '-0.4%',
-                        color: Colors.purple,
-                      );
-                    }),
-                  ),
-                ],
-              );
-            },
+                ),
+              ),
+            ),
           ),
+          const SizedBox(width: 10), // ✅ Kartlar arası 10 piksel boşluk
 
-          const SizedBox(height: 24),
-
-          /// ===========================
-          ///   CHARTS
-          /// ===========================
-          LayoutBuilder(
-            builder: (ctx, constraints) {
-              final w = constraints.maxWidth;
-
-              if (w > 1200) {
-                return Row(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Expanded(
-                      child: LineChartWidget( data: controller.lineData), // ✅ named parameter
-                    ),
-                    const SizedBox(width: 12),
-                    Expanded(
-                      child: BarChartWidget( data: controller.barData), // ✅ named parameter
-                    ),
-                    const SizedBox(width: 12),
-                    SizedBox(
-                      width: 320,
-                      child: PieChartWidget( data: controller.pieData), // ✅ named parameter
-                    ),
-                  ],
-                );
-              }
-
-              if (w > 800) {
-                return Row(
-                  children: [
-                    Expanded(
-                      child: LineChartWidget( data: controller.lineData), // ✅ named parameter
-                    ),
-                    const SizedBox(width: 12),
-                    SizedBox(
-                      width: 320,
-                      child: PieChartWidget( data: controller.pieData), // ✅ named parameter
-                    ),
-                  ],
-                );
-              }
-
-              return Column(
-                children: [
-                  LineChartWidget( data: controller.lineData), // ✅ named parameter
-                  const SizedBox(height: 12),
-                  BarChartWidget( data: controller.barData), // ✅ named parameter
-                  const SizedBox(height: 12),
-                  PieChartWidget( data: controller.pieData), // ✅ named parameter
-                ],
-              );
-            },
+          // 👇 2. Kart: Sipariş
+          Expanded(
+            flex: 1, // ✅ Sabit genişlik
+            child: SizedBox(
+              height: 90, // ✅ Yükseklik 90 piksel
+              child: Card(
+                child: Padding(
+                  padding: const EdgeInsets.all(8),
+                  child: Stack(
+                    children: [
+                      Positioned(
+                        top: 4,
+                        right: 4,
+                        child: Text(
+                          "+3%",
+                          style: TextStyle(color: Colors.green, fontWeight: FontWeight.bold, fontSize: 12),
+                        ),
+                      ),
+                      Center( // ✅ Sayısal bilgileri center yap
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Icon(Icons.shopping_cart, color: Colors.blue, size: 16),
+                                const SizedBox(width: 4),
+                                Text("Sipariş", style: Theme.of(context).textTheme.titleSmall?.copyWith(fontSize: 12)),
+                              ],
+                            ),
+                            const SizedBox(height: 4),
+                            Text(
+                              "${controller.stats.value['orders']}",
+                              style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            ),
           ),
+          const SizedBox(width: 10), // ✅ Kartlar arası 10 piksel boşluk
 
-          const SizedBox(height: 24),
+          // 👇 3. Kart: Müşteri
+          Expanded(
+            flex: 1, // ✅ Sabit genişlik
+            child: SizedBox(
+              height: 90, // ✅ Yükseklik 90 piksel
+              child: Card(
+                child: Padding(
+                  padding: const EdgeInsets.all(8),
+                  child: Stack(
+                    children: [
+                      Positioned(
+                        top: 4,
+                        right: 4,
+                        child: Text(
+                          "+1.2%",
+                          style: TextStyle(color: Colors.green, fontWeight: FontWeight.bold, fontSize: 12),
+                        ),
+                      ),
+                      Center( // ✅ Sayısal bilgileri center yap
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Icon(Icons.people, color: Colors.orange, size: 16),
+                                const SizedBox(width: 4),
+                                Text("Müşteri", style: Theme.of(context).textTheme.titleSmall?.copyWith(fontSize: 12)),
+                              ],
+                            ),
+                            const SizedBox(height: 4),
+                            Text(
+                              "${controller.stats.value['customers']}",
+                              style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            ),
+          ),
+          const SizedBox(width: 10), // ✅ Kartlar arası 10 piksel boşluk
 
-          /// ===========================
-          ///   RECENT ACTIVITY TABLE
-          /// ===========================
-          const RecentActivityTable(),
+          // 👇 4. Kart: Dönüşüm
+          Expanded(
+            flex: 1, // ✅ Sabit genişlik
+            child: SizedBox(
+              height: 90, // ✅ Yükseklik 90 piksel
+              child: Card(
+                child: Padding(
+                  padding: const EdgeInsets.all(8),
+                  child: Stack(
+                    children: [
+                      Positioned(
+                        top: 4,
+                        right: 4,
+                        child: Text(
+                          "-0.4%",
+                          style: TextStyle(color: Colors.red, fontWeight: FontWeight.bold, fontSize: 12),
+                        ),
+                      ),
+                      Center( // ✅ Sayısal bilgileri center yap
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Icon(Icons.trending_up, color: Colors.purple, size: 16),
+                                const SizedBox(width: 4),
+                                Text("Dönüşüm", style: Theme.of(context).textTheme.titleSmall?.copyWith(fontSize: 12)),
+                              ],
+                            ),
+                            const SizedBox(height: 4),
+                            Text(
+                              "${controller.stats.value['conversion']}%",
+                              style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            ),
+          ),
         ],
       ),
     );

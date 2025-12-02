@@ -51,7 +51,6 @@ class RecentActivityTable extends StatelessWidget {
     },
   ];
 
-  // 🎨 Durum etiketleri için renk fonksiyonu
   Color getStatusColor(String status) {
     switch (status) {
       case 'Done':
@@ -87,60 +86,159 @@ class RecentActivityTable extends StatelessWidget {
               ],
             ),
             const SizedBox(height: 12),
-            // 👇 Tabloyu Scrollable yap
             Expanded(
               child: SingleChildScrollView(
                 scrollDirection: Axis.horizontal,
                 child: DataTable(
                   headingTextStyle: TextStyle(
-                    color: AppColors.primaryColor, // ✅ Başlık rengi: primaryColor (mor)
+                    color: AppColors.primaryColor,
                     fontWeight: FontWeight.bold,
                     fontSize: 14,
                   ),
-                  columns: const [
-                    DataColumn(label: Text('ID')),
+                  columns: [
+                    DataColumn(
+                      label: Container(
+                        width: 60, // ✅ ID sütunu daraltıldı
+                        alignment: Alignment.centerLeft,
+                        child: Text('ID'),
+                      ),
+                    ),
                     DataColumn(label: Text('Tarih')),
                     DataColumn(label: Text('Teklif No')),
                     DataColumn(label: Text('Müşteri')),
                     DataColumn(label: Text('Proje Adı')),
-                    DataColumn(label: Text('M2')),
-                    DataColumn(label: Text('Tutar')),
+                    DataColumn(label: Text('M2')), // ✅ Sağda hizalanacak
+                    DataColumn(label: Text('Tutar')), // ✅ Sağda hizalanacak
                     DataColumn(label: Text('Hazırlayan')),
-                    DataColumn(label: Text('Durum')),
+                    DataColumn(
+                      label: Container(
+                        width: 90, // Durum sütunu
+                        alignment: Alignment.centerLeft,
+                        child: Text('Durum'),
+                      ),
+                    ),
                   ],
                   rows: _rows.map((r) {
                     final color = getStatusColor(r['status']!);
                     return DataRow(
                       cells: [
-                        DataCell(Text(r['id']!)),
-                        DataCell(Text(r['date']!)),
-                        DataCell(Text(r['offerNo']!)),  
-                        DataCell(Text(r['customer']!)),
-                        DataCell(
-                          Text(
-                            r['project']!,
-                            maxLines: 1,
-                            overflow: TextOverflow.ellipsis,
-                          ),
-                        ),
-                        DataCell(Text(r['M2']!)),
-                        DataCell(Text(r['amount']!)),
-                        DataCell(Text(r['created']!)),
                         DataCell(
                           Container(
+                            height: 36,
+                            width: 50, // ✅ ID sütunu daraltıldı
+                            alignment: Alignment.centerLeft,
+                            padding: const EdgeInsets.symmetric(horizontal: 4),
+                            child: Text(
+                              r['id']!,
+                              style: const TextStyle(fontSize: 13),
+                            ),
+                          ),
+                        ),
+                        DataCell(
+                          Container(
+                            height: 36,
+                            alignment: Alignment.centerLeft,
+                            padding: const EdgeInsets.symmetric(horizontal: 4),
+                            child: Text(
+                              r['date']!,
+                              style: const TextStyle(fontSize: 13),
+                            ),
+                          ),
+                        ),
+                        DataCell(
+                          Container(
+                            height: 36,
+                            alignment: Alignment.centerLeft,
+                            padding: const EdgeInsets.symmetric(horizontal: 4),
+                            child: Text(
+                              r['offerNo']!,
+                              style: const TextStyle(fontSize: 13),
+                            ),
+                          ),
+                        ),
+                        DataCell(
+                          Container(
+                            height: 36,
+                            alignment: Alignment.centerLeft,
+                            padding: const EdgeInsets.symmetric(horizontal: 4),
+                            child: Text(
+                              r['customer']!,
+                              style: const TextStyle(fontSize: 13),
+                            ),
+                          ),
+                        ),
+                        DataCell(
+                          Container(
+                            height: 36,
+                            alignment: Alignment.centerLeft,
+                            padding: const EdgeInsets.symmetric(horizontal: 4),
+                            child: Text(
+                              r['project']!,
+                              maxLines: 1,
+                              overflow: TextOverflow.ellipsis,
+                              style: const TextStyle(fontSize: 13),
+                            ),
+                          ),
+                        ),
+                        DataCell(
+                          Container(
+                            height: 36,
+                            alignment: Alignment.centerRight, // ✅ Sağa dayalı
+                            padding: const EdgeInsets.symmetric(horizontal: 4),
+                            child: Text(
+                              r['M2']!,
+                              style: const TextStyle(fontSize: 13),
+                            ),
+                          ),
+                        ),
+                        DataCell(
+                          Container(
+                            height: 36,
+                            alignment: Alignment.centerRight, // ✅ Sağa dayalı
+                            padding: const EdgeInsets.symmetric(horizontal: 4),
+                            child: Text(
+                              r['amount']!,
+                              style: const TextStyle(fontSize: 13),
+                            ),
+                          ),
+                        ),
+                        DataCell(
+                          Container(
+                            height: 36,
+                            alignment: Alignment.centerLeft,
+                            padding: const EdgeInsets.symmetric(horizontal: 4),
+                            child: Text(
+                              r['created']!,
+                              style: const TextStyle(fontSize: 13),
+                            ),
+                          ),
+                        ),
+                        DataCell(
+                          Container(
+                            height: 36,
+                            alignment: Alignment.centerLeft,
                             padding: const EdgeInsets.symmetric(
-                              horizontal: 8,
+                              horizontal: 4,
                               vertical: 4,
                             ),
-                            decoration: BoxDecoration(
-                              color: color.withOpacity(0.15), // Arka plan rengi
-                              borderRadius: BorderRadius.circular(8),
-                            ),
-                            child: Text(
-                              r['status']!,
-                              style: TextStyle(
-                                fontWeight: FontWeight.normal,
-                                color: color, // Yazı rengi
+                            child: Container(
+                              padding: const EdgeInsets.symmetric(
+                                horizontal: 8,
+                                vertical: 4,
+                              ),
+                              decoration: BoxDecoration(
+                                color: color.withOpacity(0.15),
+                                borderRadius: BorderRadius.circular(6),
+                              ),
+                              child: Text(
+                                r['status']!,
+                                maxLines: 1,
+                                overflow: TextOverflow.ellipsis,
+                                style: TextStyle(
+                                  fontWeight: FontWeight.normal,
+                                  color: color,
+                                  fontSize: 11,
+                                ),
                               ),
                             ),
                           ),

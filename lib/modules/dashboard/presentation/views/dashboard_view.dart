@@ -4,17 +4,17 @@ import 'package:winperax/modules/dashboard/presentation/controllers/dashboard_co
 import 'package:winperax/modules/dashboard/presentation/widgets/dashboard_appbar.dart';
 import 'package:winperax/modules/dashboard/presentation/widgets/side_menu_responsive.dart';
 import 'package:winperax/modules/dashboard/presentation/widgets/dashboard_content.dart';
-import 'package:winperax/modules/dashboard/presentation/widgets/line_chart.dart'; // ✅
-import 'package:winperax/modules/dashboard/presentation/widgets/bar_chart.dart'; // ✅
-import 'package:winperax/modules/dashboard/presentation/widgets/recent_activity_table.dart'; // ✅
-import 'package:winperax/modules/dashboard/presentation/widgets/pie_chart.dart'; // ✅
+import 'package:winperax/modules/dashboard/presentation/widgets/line_chart.dart';
+import 'package:winperax/modules/dashboard/presentation/widgets/bar_chart.dart';
+import 'package:winperax/modules/dashboard/presentation/widgets/recent_activity_table.dart';
+import 'package:winperax/modules/dashboard/presentation/widgets/pie_chart.dart';
 
 class DashboardView extends StatelessWidget {
   const DashboardView({super.key});
 
   @override
   Widget build(BuildContext context) {
-    final controller = Get.find<DashboardController>(); // 👈 Bu satır eklendi
+    final controller = Get.find<DashboardController>();
 
     return Scaffold(
       body: Stack(
@@ -29,49 +29,44 @@ class DashboardView extends StatelessWidget {
                     const DashboardAppBar(),
                     const SizedBox(height: 8),
 
-                    // 👇 1. Satır: DashboardContent (kartlar) - %20 oranında
-                    Expanded(
-                      flex: 1, // %20
-                      child: DashboardContent(), // ✅ Card'ların yüksekliği artırıldı
+                    // 👇 1. Satır: Kartlar – SABİT YÜKSEKLİK
+                    SizedBox(
+                      height: 110, // ✅ Sabit yükseklik → overflow önlemek için
+                      child: DashboardContent(),
                     ),
+                    const SizedBox(height: 10),
 
-                    const SizedBox(height: 10), // ✅ Arada 10 piksel boşluk
-
-                    // 👇 2. Satır: LineChart + BarChart - %30 oranında
+                    // 👇 2. Satır: Grafikler – Esnek (%30)
                     Expanded(
-                      flex: 4, // %30
+                      flex: 4,
                       child: Row(
                         children: [
                           Expanded(child: LineChartWidget(data: controller.lineData)),
-                          const SizedBox(width: 10), // ✅ Grafikler arası 10 piksel boşluk
+                          const SizedBox(width: 10),
                           Expanded(child: BarChartWidget(data: controller.barData)),
                         ],
                       ),
                     ),
+                    const SizedBox(height: 10),
 
-                    const SizedBox(height: 10), // ✅ Arada 10 piksel boşluk
-
-                    // 👇 3. Satır: RecentActivityTable + PieChart - %50 oranında
+                    // 👇 3. Satır: Tablo + Pie Chart – Esnek (%50)
                     Expanded(
-                      flex: 5, // %50
+                      flex: 5,
                       child: Row(
                         children: [
-                          // ✅ Sol: Son İşlemler Tablosu (3 kart genişliğinde)
                           Expanded(
-                            flex: 3, // %75 genişlik
+                            flex: 3,
                             child: RecentActivityTable(),
                           ),
-                          const SizedBox(width: 10), // ✅ Tablo ve pie chart arası 10 piksel boşluk
-                          // ✅ Sağ: Pie Chart (1 kart genişliğinde)
+                          const SizedBox(width: 10),
                           Expanded(
-                            flex: 1, // %25 genişlik
+                            flex: 1,
                             child: PieChartWidget(data: controller.pieData),
                           ),
                         ],
                       ),
                     ),
-
-                    const SizedBox(height: 10), // ✅ Altta 10 piksel boşluk
+                    const SizedBox(height: 10),
                   ],
                 ),
               ),
@@ -91,7 +86,7 @@ class DashboardView extends StatelessWidget {
                 duration: const Duration(milliseconds: 200),
                 opacity: menuOpen ? 1 : 0,
                 child: Container(
-                  color: Colors.black.withOpacity(.35),
+                  color: Colors.black.withOpacity(0.35),
                 ),
               ),
             );

@@ -11,14 +11,14 @@ class LineChartWidget extends StatelessWidget {
     return Card(
       child: Container(
         padding: const EdgeInsets.all(12),
-        height: 500, // ✅ Yükseklik 200 piksel
+        height: 500,
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Padding(
               padding: const EdgeInsets.only(bottom: 8),
               child: Text(
-                "Aylık Verilen Teklif Sayısı ",
+                "Aylık Verilen Teklif Sayısı",
                 style: TextStyle(
                   fontWeight: FontWeight.normal,
                   fontSize: 14,
@@ -30,9 +30,17 @@ class LineChartWidget extends StatelessWidget {
             ),
             Expanded(
               child: Obx(() {
+                if (data.length < 12) {
+                  data.assignAll([
+                    520, 450, 570, 775, 850, 870,
+                    900, 990, 800, 700, 600, 550
+                  ]);
+                }
+
+                // ✅ X değerleri 1'den 12'ye kadar
                 final spots = List<FlSpot>.generate(
                   data.length,
-                  (i) => FlSpot(i.toDouble(), data[i]),
+                  (i) => FlSpot((i + 1).toDouble(), data[i]),
                 );
 
                 return LineChart(
@@ -42,24 +50,79 @@ class LineChartWidget extends StatelessWidget {
                       drawVerticalLine: true,
                       drawHorizontalLine: true,
                       getDrawingHorizontalLine: (value) => FlLine(
-                        color: const Color(0xFF4B5563), // Gri grid
+                        color: const Color(0xFF4B5563),
                         strokeWidth: 0.5,
                       ),
                       getDrawingVerticalLine: (value) => FlLine(
-                        color: const Color(0xFF4B5563), // Gri grid
+                        color: const Color(0xFF4B5563),
                         strokeWidth: 0.5,
                       ),
                     ),
                     titlesData: FlTitlesData(
+                      // 📅 X EKSENİ - ALT: AY İSİMLERİ (TEK KERE)
                       bottomTitles: AxisTitles(
                         sideTitles: SideTitles(
                           showTitles: true,
                           reservedSize: 30,
                           getTitlesWidget: (value, meta) {
-                            final index = value.toInt();
-                            if (index >= 0 && index < 7) { // ✅ Sadece 0-6 göster
+                            // ✅ Sadece tam sayı x değerlerinde metin göster
+                            if (value == value.toInt().toDouble()) {
+                              final index = value.toInt();
+                              if (index >= 1 && index <= 12) {
+                                final months = [
+                                  'Oca', 'Şub', 'Mar', 'Nis', 'May', 'Haz',
+                                  'Tem', 'Ağu', 'Eyl', 'Eki', 'Kas', 'Ara'
+                                ];
+                                return Text(
+                                  months[index - 1],
+                                  style: TextStyle(
+                                    fontSize: 12,
+                                    color: Theme.of(context).brightness == Brightness.dark
+                                        ? Colors.white
+                                        : Colors.black87,
+                                  ),
+                                );
+                              }
+                            }
+                            return const Text('');
+                          },
+                        ),
+                      ),
+                      // 📅 X EKSENİ - ÜST: RAKAMLAR (TEK KERE)
+                      topTitles: AxisTitles(
+                        sideTitles: SideTitles(
+                          showTitles: true,
+                          reservedSize: 30,
+                          getTitlesWidget: (value, meta) {
+                            // ✅ Sadece tam sayı x değerlerinde metin göster
+                            if (value == value.toInt().toDouble()) {
+                              final index = value.toInt();
+                              if (index >= 1 && index <= 12) {
+                                return Text(
+                                  '$index',
+                                  style: TextStyle(
+                                    fontSize: 11,
+                                    color: Theme.of(context).brightness == Brightness.dark
+                                        ? Colors.white.withOpacity(0.7)
+                                        : Colors.black54,
+                                  ),
+                                );
+                              }
+                            }
+                            return const Text('');
+                          },
+                        ),
+                      ),
+                      // 📏 SOL Y EKSENİ
+                      leftTitles: AxisTitles(
+                        sideTitles: SideTitles(
+                          showTitles: true,
+                          reservedSize: 40,
+                          interval: 200,
+                          getTitlesWidget: (value, meta) {
+                            if (value % 200 == 0 && value <= 1200) {
                               return Text(
-                                '$index',
+                                '${value.toInt()}',
                                 style: TextStyle(
                                   fontSize: 12,
                                   color: Theme.of(context).brightness == Brightness.dark
@@ -72,10 +135,26 @@ class LineChartWidget extends StatelessWidget {
                           },
                         ),
                       ),
-                      leftTitles: AxisTitles(
+                      // 📏 SAĞ Y EKSENİ
+                      rightTitles: AxisTitles(
                         sideTitles: SideTitles(
                           showTitles: true,
                           reservedSize: 40,
+                          interval: 200,
+                          getTitlesWidget: (value, meta) {
+                            if (value % 200 == 0 && value <= 1200) {
+                              return Text(
+                                '${value.toInt()}',
+                                style: TextStyle(
+                                  fontSize: 12,
+                                  color: Theme.of(context).brightness == Brightness.dark
+                                      ? Colors.white
+                                      : Colors.black87,
+                                ),
+                              );
+                            }
+                            return const Text('');
+                          },
                         ),
                       ),
                     ),
@@ -88,13 +167,17 @@ class LineChartWidget extends StatelessWidget {
                         belowBarData: BarAreaData(
                           show: true,
                           gradient: LinearGradient(colors: [
+                            // ignore: deprecated_member_use
                             const Color(0xFF826CF6).withOpacity(0.15),
+                            // ignore: deprecated_member_use
                             const Color(0xFF826CF6).withOpacity(0.03),
                           ]),
                         ),
                         color: const Color(0xFF826CF6),
                       ),
                     ],
+                    maxY: 1200,
+                    minY: 0,
                   ),
                 );
               }),

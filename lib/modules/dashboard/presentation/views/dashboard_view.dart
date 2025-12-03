@@ -27,46 +27,55 @@ class DashboardView extends StatelessWidget {
                 child: Column(
                   children: [
                     const DashboardAppBar(),
-                    const SizedBox(height: 8),
+                    const SizedBox(height: 16), // 👈 Sabit üst boşluk
 
-                    // 👇 1. Satır: Kartlar – SABİT YÜKSEKLİK
+                    // 👇 1. Satır: Kartlar – SABİT YÜKSEKLİK (Overflow önleme)
                     SizedBox(
-                      height: 110, // ✅ Sabit yükseklik → overflow önlemek için
-                      child: DashboardContent(),
+                      height: 110,
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 16),
+                        child: DashboardContent(),
+                      ),
                     ),
-                    const SizedBox(height: 10),
+                    const SizedBox(height: 16), // 👈 Sabit boşluk
 
                     // 👇 2. Satır: Grafikler – Esnek (%30)
                     Expanded(
                       flex: 4,
-                      child: Row(
-                        children: [
-                          Expanded(child: LineChartWidget(data: controller.lineData)),
-                          const SizedBox(width: 10),
-                          Expanded(child: BarChartWidget(data: controller.barData)),
-                        ],
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 16),
+                        child: Row(
+                          children: [
+                            Expanded(child: LineChartWidget(data: controller.lineData)),
+                            const SizedBox(width: 16), // 👈 Sabit yatay boşluk
+                            Expanded(child: BarChartWidget(data: controller.barData)),
+                          ],
+                        ),
                       ),
                     ),
-                    const SizedBox(height: 10),
+                    const SizedBox(height: 16), // 👈 Sabit boşluk
 
                     // 👇 3. Satır: Tablo + Pie Chart – Esnek (%50)
                     Expanded(
                       flex: 5,
-                      child: Row(
-                        children: [
-                          Expanded(
-                            flex: 3,
-                            child: RecentActivityTable(),
-                          ),
-                          const SizedBox(width: 10),
-                          Expanded(
-                            flex: 1,
-                            child: PieChartWidget(data: controller.pieData),
-                          ),
-                        ],
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 16),
+                        child: Row(
+                          children: [
+                            Expanded(
+                              flex: 3,
+                              child: RecentActivityTable(),
+                            ),
+                            const SizedBox(width: 16), // 👈 Sabit yatay boşluk
+                            Expanded(
+                              flex: 1,
+                              child: PieChartWidget(data: controller.pieData),
+                            ),
+                          ],
+                        ),
                       ),
                     ),
-                    const SizedBox(height: 10),
+                    const SizedBox(height: 16), // 👈 Sabit alt boşluk
                   ],
                 ),
               ),

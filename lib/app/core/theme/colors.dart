@@ -31,4 +31,11 @@ class AppColors {
   static const Color cardBackground = Colors.white;
   static const Color textPrimary = Colors.black;
   static const Color textSecondary = Colors.grey;
+
+    // ✅ Tooltip renkleri
+  static const Color tooltipDark = Color(0xFF2D3341);
+  static const Color tooltipLight = Color(0xFFFFFFFF);
+  static const Color borderDark = Color(0xFF4A5260);
+  static const Color borderLight = Color(0xFFD0D5DD);
+
 }

@@ -37,67 +37,99 @@ class _SidebarItemState extends State<SidebarItem> {
 
     // Diğer renkler
     final primaryColor = Theme.of(context).colorScheme.primary;
-    final hoverIconColor = AppColors.primaryColor; // ✅ Orta gri
-    final selectedIconColor = AppColors.primaryColor; // ✅ Mor
-    final defaultColor = AppColors.iconColorLight; // ✅ Orta gri
+    final hoverIconColor = AppColors.primaryColor; // Orta gri
+    final selectedIconColor = AppColors.primaryColor; // Mor
+    final defaultColor = AppColors.iconColorLight; // Orta gri
 
+    // ✅ Tooltip için: Sadece compact modda ve hover durumunda göster
+    Widget itemWidget = GestureDetector(
+      onTap: widget.onTap,
+      child: Container(
+        margin: const EdgeInsets.symmetric(horizontal: 8, vertical: 6),
+        padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 12),
+        decoration: BoxDecoration(
+          color: widget.isSelected
+              ? (brightness == Brightness.dark
+                    ? primaryColor.withValues(alpha: 0.12)
+                    : AppColors.sidebarSelectedLight)
+              : (isHovered
+                    ? (brightness == Brightness.dark
+                          ? primaryColor.withValues(alpha: 0.08)
+                          : AppColors.sidebarHoverLight)
+                    : Colors.transparent),
+          borderRadius: BorderRadius.circular(12),
+        ),
+        child: Row(
+          children: [
+            Icon(
+              widget.icon,
+              color: widget.isSelected
+                  ? selectedIconColor
+                  : isHovered
+                      ? hoverIconColor
+                      : defaultColor,
+            ),
+            if (!widget.isCompact) ...[
+              const SizedBox(width: 12),
+              Expanded(
+                child: Text(
+                  widget.label,
+                  style: TextStyle(
+                    fontFamily: "Montserrat",
+                    color: widget.isSelected
+                        ? primaryColor
+                        : isHovered
+                            ? primaryColor
+                            : AppColors.iconColorLight,
+                    fontWeight: widget.isSelected
+                        ? FontWeight.normal
+                        : FontWeight.normal,
+                  ),
+                ),
+              ),
+            ],
+          ],
+        ),
+      ),
+    );
+
+    // 👇 Compact modda ve hover'daysa tooltip göster
+    if (widget.isCompact && isHovered) {
+      return Tooltip(
+        message: widget.label, // ✅ Tooltip metni: Menü etiketi
+        preferBelow: false,
+        waitDuration: Duration.zero, // Hemen göster
+        showDuration: const Duration(seconds: 3),
+        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+        decoration: BoxDecoration(
+          color: brightness == Brightness.dark
+              ? AppColors.tooltipDark
+              : AppColors.tooltipLight, // Tema uyumlu arka plan
+          borderRadius: BorderRadius.circular(8),
+          border: Border.all(
+            color: brightness == Brightness.dark
+                ? AppColors.borderDark
+                : AppColors.borderLight,
+            width: 0.5,
+          ),
+        ),
+        textStyle: TextStyle(
+          fontSize: 12,
+          color: brightness == Brightness.dark
+              ? Colors.white
+              : AppColors.textColorLight,
+          fontWeight: FontWeight.w500,
+        ),
+        child: itemWidget,
+      );
+    }
+
+    // Normalde MouseRegion ile hover kontrolü
     return MouseRegion(
       onEnter: (_) => setState(() => isHovered = true),
       onExit: (_) => setState(() => isHovered = false),
       cursor: SystemMouseCursors.click,
-      child: GestureDetector(
-        onTap: widget.onTap,
-        child: Container(
-          margin: const EdgeInsets.symmetric(horizontal: 8, vertical: 6),
-          padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 12),
-          decoration: BoxDecoration(
-            color: widget.isSelected
-                ? (brightness == Brightness.dark
-                      ? primaryColor.withValues(alpha: 0.12)
-                      : AppColors
-                            .sidebarSelectedLight) // ✅ Light tema için açık gri
-                : (isHovered
-                      ? (brightness == Brightness.dark
-                            ? primaryColor.withValues(alpha: 0.08)
-                            : AppColors
-                                  .sidebarHoverLight) // ✅ Light tema için hover
-                      : Colors.transparent),
-            borderRadius: BorderRadius.circular(12),
-          ),
-          child: Row(
-            children: [
-              Icon(
-                widget.icon,
-                color: widget.isSelected
-                    ? selectedIconColor // ✅ Seçim ikon rengi: Mor
-                    : isHovered
-                    ? hoverIconColor // ✅ Hover ikon rengi: Orta gri
-                    : defaultColor, // ✅ Normal ikon rengi: Orta gri
-              ),
-              if (!widget.isCompact) ...[
-                const SizedBox(width: 12),
-                Expanded(
-                  child: Text(
-                    widget.label,
-                    style: TextStyle(
-                      fontFamily: "Montserrat",
-                      color: widget.isSelected
-                          ? primaryColor // ✅ Seçim yazı rengi: Koyu gri
-                          : isHovered
-                          ? primaryColor // ✅ Hover yazı rengi: Koyu gri
-                          : AppColors
-                                .iconColorLight, // ✅ Normal yazı rengi: Orta gri
-                      fontWeight: widget.isSelected
-                          ? FontWeight.normal
-                          : FontWeight.normal,
-                    ),
-                  ),
-                ),
-              ],
-            ],
-          ),
-        ),
-      ),
+      child: itemWidget,
     );
   }
 }

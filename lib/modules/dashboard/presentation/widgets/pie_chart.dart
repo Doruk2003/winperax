@@ -67,7 +67,7 @@ class PieChartWidget extends StatelessWidget {
                             fontWeight: FontWeight.bold,
                             color: Colors.white,
                           ),
-                          radius: 70,
+                          radius: 50,
                           badgePositionPercentageOffset: 0.8,
                         );
                       }).toList(),
